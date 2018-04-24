@@ -1,0 +1,13 @@
+Id	Lat	Long
+Praga	50.1	14.46
+Usti	50.66	14.09
+Liberec	50.755	15.16
+Hradec	50.272	15.895
+Olomouc	49.645	16.985
+Ostrava	49.665	18.191
+Zlin	49.113	17.456
+Brno	49.1126	16.3643
+Jihlava	49.2343	15.3524
+Budweiss	48.5826	14.2832
+Pilsen	49.4451	13.2241
+Pardubice	50.01	15.66

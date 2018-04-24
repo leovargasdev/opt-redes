@@ -1,0 +1,15 @@
+Id	Lat	Long						
+Palermo	37.55	14.09						
+Calabria	38.45	16.09						
+Bari	41.08	16.54						
+Naples	40.92	14.3						
+Pescara	42.55	14.15						
+Florence	43.6	11.3						
+Roma	41.84	12.38						
+Cagliari	39.7	9.04						
+Genoa	44.5	8.96						
+Turim	45.42	7.883						
+Milan	45.8	9.15						
+Trento	46.55	11.62						
+Venice	45.89	13.23						
+Bologne	44.42	12.46						

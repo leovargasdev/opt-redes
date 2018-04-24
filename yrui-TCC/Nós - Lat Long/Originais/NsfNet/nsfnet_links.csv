@@ -1,0 +1,24 @@
+"From","To","Length","Capacity","Cost"
+"College Pk","Princeton",286,1,185900
+"Princeton","Pittsburgh",546,1,354900
+"Ithaca","College Pk",547,1,355550
+"Ithaca","Pittsburgh",572,1,371800
+"Champaign","Pittsburgh",781,1,507650
+"Lincoln","Boulder",804,1,522600
+"Palo Alto","San Diego",805,1,523250
+"Ithaca","Ann Arbor",813,1,528450
+"Salt LK city","Boulder",843,1,547950
+"Champaign","Lincoln",871,1,566150
+"Ann Arbor","Princeton",1006,1,653900
+"Atalanta","Pittsburgh",1104,1,717600
+"Palo Alto","Salt LK city",1228,1,798200
+"Atalanta","Houston",1275,1,828750
+"Palo Alto","Seattler",1343,1,872950
+"Houston","Boulder",1711,1,1112150
+"Seattler","San Diego",2018,1,1311700
+"College Pk","Houston",2278,1,1480700
+"Houston","San Diego",2372,1,1541800
+"Salt LK city","Ann Arbor",2605,1,1693250
+"Seattler","Champaign",3480,1,2262000
+
+

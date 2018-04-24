@@ -1,0 +1,13 @@
+Id	Lat	Long
+Seattle	47.57	-122.386
+San Francisco	37.795	-122.38
+Los Angelos	34	-118.249
+Denver	39.739	-104.984
+Chicago	41.826	-87.641
+Houston	29.771	-95.407
+Cleveland	41.391	-81.727
+Atlanta	33.796	-84.348
+New York	40.707	-73.905
+Boston	42.375	-71.103
+Washington	39.3	-77.7
+Perryman	39.5	-75.7

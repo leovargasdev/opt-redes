@@ -1,0 +1,101 @@
+Id	Lat	Long
+Seattle	47.57	-122.386
+Portland	45.523	-122.676
+Spokane	47.658	-117.426
+Boise	43.616	-116.216
+Eugene	44.052	-123.086
+Billings	45.783	-108.5
+Fort Collins	40.585	-105.084
+Denver	39.739	-104.984
+Salt lake city	40.693	-111.891
+Sacramento	38.567	-121.422
+San Francisco	37.795	-122.38
+Modesto	37.639	-120.996
+San Jose	37.308	-121.847
+Bakersfield	35.373	-119.018
+Los Angelos	34	-118.249
+San Diego	32.761	-117.125
+Las vegas	36.175	-115.137
+Tempe	33.415	-111.909
+Tucson	32.221	-110.926
+Albuquerque	35.084	-106.651
+El Paso	31.78	-106.449
+Amarilho	35.222	-101.831
+lubbock	33.577	-101.855
+San Antonio	29.429	-98.524
+Houston	29.771	-95.407
+Waco	31.549	-97.146
+Dallas	32.763	-96.663
+shreveport	32.525	-93.75
+Little rock	34.761	-92.309
+Oklahoma city	35.49	-97.529
+Wichita	37.692	-97.337
+Kansas city	39.099	-94.578
+Omaha	41.258	-95.937
+Sioux Falls	43.549	-96.7
+Fargo	46.877	-96.789
+Minneapolis	44.924	-93.307
+Des Moines	41.597	-93.622
+Peoria	40.693	-89.588
+Milwaukee	43.038	-87.906
+Chicago	41.826	-87.641
+Grand rapids	42.963	-85.668
+South bend	41.683	-86.25
+Detroit	42.394	-83.078
+Toledo	41.663	-83.555
+Columbus	40.045	-82.993
+Indianapolis	39.814	-86.135
+Springfield	39.794	-89.653
+St Louis	38.638	-90.342
+Memphis	35.114	-90
+Jackson	32.319	-90.203
+New orleans	29.956	-90.098
+Mobile	30.683	-88.116
+tallahassee	30.45	-84.3
+clearwater	27.976	-82.758
+Miami	25.832	-80.27
+Jupiter	26.934	-80.094
+Orlando	28.538	-81.379
+Gainesville	29.652	-82.324
+Jacksonville	30.33	-81.66
+Waycross	31.213	-82.354
+Savannah	32.086	-81.099
+Macon	32.84	-83.632
+Montgomery	32.36	-86.299
+Birminghan	33.521	-86.802
+Nashville	36.142	-86.818
+chattanooga	35.046	-85.309
+Atlanta	33.796	-84.348
+Augusta	33.471	-81.975
+Columbia	34.014	-80.997
+Charlotte	35.205	-80.835
+Knoxville	35.96	-83.92
+Louisville	38.254	-85.759
+Cincinnati	39.148	-84.477
+wytheville	36.948	-81.085
+Greensboro	36.072	-79.792
+Raleigh	35.791	-78.643
+Richmond	37.563	-77.473
+Washington	38.895	-77.036
+Charleston	38.355	-81.653
+Pittsburgh	40.497	-79.997
+Cleveland	41.391	-81.727
+Buffalo	42.898	-78.848
+Syracuse	43.048	-76.147
+Binghamton	42.098	-75.917
+Scranton	41.408	-75.662
+Philadelphia	39.89	-75.21
+New York	40.707	-73.905
+Allentown	40.608	-75.49
+Stamford	41.14	-73.58
+Bridgeport	41.36	-73.08
+Hartford	41.89	-72.79
+Lake Katrina	41.985	-73.988
+Schenectady	42.88	-73.95
+Rutland	43.61	-72.973
+chicopee	42.148	-72.607
+Providence	40.35	-74.59
+Boston	42.37	-71.02
+Worcester	42.31	-71.84
+Manchester	43.01	-71.52
+Westbrook	43.677	-70.371
