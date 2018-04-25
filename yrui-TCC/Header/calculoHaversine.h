@@ -1,12 +1,12 @@
 /*
-	Author: Yruí Giovan Neris - yruigneris@gmail.com - 2017
-	Universidade Federal da Fronteira Sul - Chapecó - SC
-	Trabalho de Conclusão de Curso:
-		- Ciência da Computação
-		- Problema Quadrático de Alocação aplicado ao Mapeamento de Topologias de Redes Ópticas de Transporte de Telecomunicações
+Author: Yruï¿½ Giovan Neris - yruigneris@gmail.com - 2017
+Universidade Federal da Fronteira Sul - Chapecï¿½ - SC
+Trabalho de Conclusï¿½o de Curso:
+- Ciï¿½ncia da Computaï¿½ï¿½o
+- Problema Quadrï¿½tico de Alocaï¿½ï¿½o aplicado ao Mapeamento de Topologias de Redes ï¿½pticas de Transporte de Telecomunicaï¿½ï¿½es
 */
 
-# define M_PI           3.14159265358979323846  /* numero aproximado de Pi */
+# define M_PI 3.14159265358979323846  /* numero aproximado de Pi */
 
 // Converte para radianos
 double converte(double angle)
@@ -37,7 +37,7 @@ void calculoHaversine(vector<Vertice> pontos) {
 	int i, j;
 	double distancia = 0.0;
 	int numeroPontos = pontos.size();
-	//Calcula a distancia para todo par de vértices da Matriz D, que nesse caso é o Vetor
+	//Calcula a distancia para todo par de vï¿½rtices da Matriz D, que nesse caso ï¿½ o Vetor
 	//Percore a linha calculando para cada coluna
 	for(i = 0; i < numeroPontos; i++){
 		for (j = 0; j < numeroPontos; j++) {
@@ -45,7 +45,7 @@ void calculoHaversine(vector<Vertice> pontos) {
 				matrizD[i * pontos.size() + j] = 0;
 			}
 			else {
-				//Passa os valores de latitude e longitude do ponto, ponto i que é a linha e ponto j q é coluna
+				//Passa os valores de latitude e longitude do ponto, ponto i que ï¿½ a linha e ponto j q ï¿½ coluna
 				if(i < j){
 					distancia = calculaDistancia(pontos[i].latitude, pontos[i].longitude, pontos[j].latitude, pontos[j].longitude);
 					matrizD[i * pontos.size() + j] = distancia;
