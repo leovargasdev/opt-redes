@@ -1,13 +1,13 @@
 /*
-	Author: Yruí Giovan Neris - yruigneris@gmail.com - 2017
-	Universidade Federal da Fronteira Sul - Chapecó - SC
-	Trabalho de Conclusão de Curso:
-		- Ciência da Computação
-		- Problema Quadrático de Alocação aplicado ao Mapeamento de Topologias de Redes Ópticas de Transporte de Telecomunicações
+Author: Yruï¿½ Giovan Neris - yruigneris@gmail.com - 2017
+Universidade Federal da Fronteira Sul - Chapecï¿½ - SC
+Trabalho de Conclusï¿½o de Curso:
+- Ciï¿½ncia da Computaï¿½ï¿½o
+- Problema Quadrï¿½tico de Alocaï¿½ï¿½o aplicado ao Mapeamento de Topologias de Redes ï¿½pticas de Transporte de Telecomunicaï¿½ï¿½es
 */
 
 class Vertice {
-	public:
+public:
 	int id;
 	char *nome;
 	double latitude;
@@ -16,10 +16,10 @@ class Vertice {
 
 	vector<Vertice> leVertices()
 	{
-		//Vetor que contém todos os pontos
+		//Vetor que contï¿½m todos os pontos
 		vector<Vertice> pontos;
-		
-		//Dados do vértice
+
+		//Dados do vï¿½rtice
 		Vertice vertice;
 
 		FILE *arquivo;
@@ -62,13 +62,13 @@ class Vertice {
 				while (token != NULL) {
 
 					switch (posicao) {
-					case 0:
+						case 0:
 						vertice.nome = token;
 						break;
-					case 1:
+						case 1:
 						vertice.latitude = atof(token);
 						break;
-					case 2:
+						case 2:
 						vertice.longitude = atof(token);
 						break;
 					}

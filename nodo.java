@@ -9,7 +9,12 @@ class Nodo{
         this.lati = Double.parseDouble(campos[1]);
         this.longi = Double.parseDouble(campos[2]);
     }
-
+    public double getLat(){
+        return this.lati;
+    }
+    public double getLong(){
+        return this.longi;
+    }
     public void getCampos(){
         System.out.println("Cidade: " + this.city);
         System.out.println("Latitude: " + this.lati);
