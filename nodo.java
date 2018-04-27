@@ -19,6 +19,6 @@ class Nodo{
         System.out.println("Cidade: " + this.city);
         System.out.println("Latitude: " + this.lati);
         System.out.println("Longitude: " + this.longi);
-        System.out.println("-  -  -  -  -  -  -  -  -\n");
+        System.out.println("-   -   -   -   -   -   -");
     }
 }

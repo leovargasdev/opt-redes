@@ -17,8 +17,8 @@ double converte(double angle)
 //Calcula a distancia utilizando haversine
 double calculaDistancia(double latitude1,double longtitude1,double latitude2,double longtitude2)
 {
-	 // Radius da Terra Aproximadamente
-
+	// Radius da Terra Aproximadamente
+	double radius = 6373.0;
 	double latDelta = converte(latitude2 - latitude1);
 	double lonDelta = converte(longtitude2 - longtitude1);
 
@@ -27,7 +27,7 @@ double calculaDistancia(double latitude1,double longtitude1,double latitude2,dou
 
 	double a = pow(sin(latDelta / 2), 2) + cos(convertidoLat1) * cos(convertidoLat2) * pow(sin(lonDelta / 2), 2);
 
-	double c = 2 * atan2(sqrt(a), Math.sqrt(1 - a));
+	double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 	double d = radius * c;
 
 	return d;

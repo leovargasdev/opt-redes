@@ -1,9 +1,9 @@
 /*
-	Author: Yruí Giovan Neris - yruigneris@gmail.com - 2017
-	Universidade Federal da Fronteira Sul - Chapecó - SC
-	Trabalho de Conclusão de Curso:
-		- Ciência da Computação
-		- Problema Quadrático de Alocação aplicado ao Mapeamento de Topologias de Redes Ópticas de Transporte de Telecomunicações
+	Author: Yruï¿½ Giovan Neris - yruigneris@gmail.com - 2017
+	Universidade Federal da Fronteira Sul - Chapecï¿½ - SC
+	Trabalho de Conclusï¿½o de Curso:
+		- Ciï¿½ncia da Computaï¿½ï¿½o
+		- Problema Quadrï¿½tico de Alocaï¿½ï¿½o aplicado ao Mapeamento de Topologias de Redes ï¿½pticas de Transporte de Telecomunicaï¿½ï¿½es
 */
 
 //Le o arquivo de fluxo e monta a matriz F de Fluxo.
@@ -24,7 +24,7 @@ void leFluxo() {
 		while (fgets(linha, sizeof linha, arquivo) != NULL)
 		{
 			//Adiciona linha ao vetor
-			linhas[i] = _strdup(linha);
+			linhas[i] = strdup(linha);
 			i++;
 			//Conta a quantidade de arestas
 			numArestas++;
@@ -43,7 +43,7 @@ void leFluxo() {
 
 			switch (posicao) {
 			case 0:
-				//Posicao -1 pois o arquivo começa no vertice 1
+				//Posicao -1 pois o arquivo comeï¿½a no vertice 1
 				posicaoI = atoi(token) - 1;
 				break;
 			case 1:
@@ -54,7 +54,7 @@ void leFluxo() {
 			token = strtok(NULL, "\t");
 			posicao++;
 		}
-		//Adiciona na matriz na posição que contem conexão entre ij, tanto na parte superior quanto inferior
+		//Adiciona na matriz na posiï¿½ï¿½o que contem conexï¿½o entre ij, tanto na parte superior quanto inferior
 		matrizF[posicaoI * quantidadeVertices + posicaoJ] = 1;
 		matrizF[posicaoJ * quantidadeVertices + posicaoI] = 1;
 

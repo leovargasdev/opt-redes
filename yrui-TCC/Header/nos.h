@@ -40,7 +40,7 @@ public:
 		while (fgets(linha, sizeof linha, arquivo) != NULL)
 		{
 			//Adiciona linha ao vetor
-			linhas[i] = _strdup(linha);
+			linhas[i] = strdup(linha);
 			i++;
 			//Conta a quantidade de linhas
 			numVertices += 1;

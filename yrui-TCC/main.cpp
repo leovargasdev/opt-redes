@@ -1,9 +1,9 @@
 /*
-	Author: Yruí Giovan Neris - yruigneris@gmail.com - 2017
-	Universidade Federal da Fronteira Sul - Chapecó - SC
-	Trabalho de Conclusão de Curso:
-	 - Ciência da Computação
-	 - Problema Quadrático de Alocação aplicado ao Mapeamento de Topologias de Redes Ópticas de Transporte de Telecomunicações
+	Author: Yruï¿½ Giovan Neris - yruigneris@gmail.com - 2017
+	Universidade Federal da Fronteira Sul - Chapecï¿½ - SC
+	Trabalho de Conclusï¿½o de Curso:
+	 - Ciï¿½ncia da Computaï¿½ï¿½o
+	 - Problema Quadrï¿½tico de Alocaï¿½ï¿½o aplicado ao Mapeamento de Topologias de Redes ï¿½pticas de Transporte de Telecomunicaï¿½ï¿½es
 */
 
 #include "Header/bibliotecas.h"
@@ -15,7 +15,7 @@
 #include "Header/buscaMaiorDistancia.h"
 #include "Header/QAP using GA/main.h"
 #include "Header/QAP using GA - Original/main.h"
-#include "Header/Força Bruta/mainForcaBruta.h"
+// #include "Header/Forï¿½a Bruta/mainForcaBruta.h"
 #include "Header/Grafo/grafo.h"
 #include "Header/saida.h"
 #include "Header/Suurballe/matrizAdjacencias.h"
@@ -24,7 +24,7 @@
 
 int main()
 {
-	//Medir tempo	
+	//Medir tempo
 	t0 = clock();
 	//----------
 	int opcao;
@@ -36,17 +36,17 @@ int main()
 	int i, j;
 	double distanciaTotalOriginal;
 
-	//Quantidade de vertices é o tamanho do vetor de pontos
+	//Quantidade de vertices ï¿½ o tamanho do vetor de pontos
 	quantidadeVertices = pontos.size();
 
-	//As matrizes são trabalhadas como vetores, para ser possível gerar uma matriz conforme o tamanho da entrada		
+	//As matrizes sï¿½o trabalhadas como vetores, para ser possï¿½vel gerar uma matriz conforme o tamanho da entrada
 
-	//Matriz de Distâncias, distância entre i e j na posição ij
+	//Matriz de Distï¿½ncias, distï¿½ncia entre i e j na posiï¿½ï¿½o ij
 	matrizD = new double[quantidadeVertices * quantidadeVertices];
 
-	//Matriz de Fluxo, quando ij = 1 existe conexão, quando 0 não existe conexão
+	//Matriz de Fluxo, quando ij = 1 existe conexï¿½o, quando 0 nï¿½o existe conexï¿½o
 	matrizF = new int[quantidadeVertices * quantidadeVertices];
-	
+
 	//Vetor que contem o caminho
 	int *caminhoOriginal = new int[quantidadeVertices];
 
@@ -56,76 +56,76 @@ int main()
 		matrizD[i] = 0;
 	}
 
-	//Somente para teste, inicialização
+	//Somente para teste, inicializaï¿½ï¿½o
 	int *vetorTeste = new int[quantidadeVertices];
 	int *vetorTeste2 = new int[quantidadeVertices];
 
-	//Caminho original é sempre a sequência de valores 0,1,2,...,quantidadeVertices
+	//Caminho original ï¿½ sempre a sequï¿½ncia de valores 0,1,2,...,quantidadeVertices
 	for (i = 0; i < quantidadeVertices; i++) {
 		caminhoOriginal[i] = i;
 	}
 
-	//Seta os valores das distância entre os pontos
+	//Seta os valores das distï¿½ncia entre os pontos
 	leFluxo();
 
 	//Seta a matriz de Fluxo com as arestas, lendo do caminho do arquivo de arestas
 	calculoHaversine(pontos);
 
-	printf("\n MATRIZ F %d\n", quantidadeVertices);
-	for (i = 0; i < quantidadeVertices; i++) {
-		for (j = 0; j < quantidadeVertices; j++) {
-			printf("   %d", matrizF[i * quantidadeVertices + j]);
-		}
-		printf("\n");
-	}
+	// printf("\n MATRIZ F %d\n", quantidadeVertices);
+	// for (i = 0; i < quantidadeVertices; i++) {
+	// 	for (j = 0; j < quantidadeVertices; j++) {
+	// 		printf("   %d", matrizF[i * quantidadeVertices + j]);
+	// 	}
+	// 	printf("\n");
+	// }
 	printf("\n MATRIZ D\n");
 	for (i = 0; i < quantidadeVertices; i++) {
 		for (j = 0; j < quantidadeVertices; j++) {
-			printf(" %f,", matrizD[i * quantidadeVertices + j]);
+			printf("%.1f \t", matrizD[i * quantidadeVertices + j]);
 		}
-		printf(";\n");
+		printf("\n");
 	}
 
-	printf("\n Links = %d, NumeroVertices = %d \n", numeroLinks, quantidadeVertices);
-
-	//Calcula a distancia total do grafo a a partir do melhor caminho
-	printf("\n _________________________________________________\n");
-	printf("\n|                      Menu                       |\n");
-	printf("\n|_________________________________________________|\n");
-	printf("\n|  1 - Algoritmo Genético                         |");
-	printf("\n|  2 - Força Bruta                                |");
-	printf("\n|  3 - RSA                                        |");
-	printf("\n|_________________________________________________|\n");
-	scanf("%d", &opcao);
-
-	distanciaTotalOriginal = calculaComprimentoTotal(caminhoOriginal);
-
-	switch (opcao)
-	{
-	case 1:
-		melhorCaminho = algoritmoGenetico();
-		montaSaidaComprimento("GA", pontos, caminhoOriginal, distanciaTotalOriginal, melhorCaminho, tempo_gasto);
-
-		printf("\n distancia Total %f KM\n", distanciaTotalOriginal);
-		printf("\n distancia Total Do GA %f KM\n", melhorCaminho.custoCaminho);
-
-		printf("\n distancia Total %f KM\n", distanciaTotalOriginal);
-		printf("\n distancia Total Do GA %f KM\n", melhorCaminho.custoCaminho);
-
-		break;
-	case 2:
-		melhorCaminho = mainForcaBruta(caminhoOriginal);
-		tf = clock();
-		tempo_gasto = ((double)(tf - t0)) / CLOCKS_PER_SEC;
-		montaSaidaComprimento("ForçaBruta",pontos, caminhoOriginal, distanciaTotalOriginal, melhorCaminho, tempo_gasto);
-		break;
-	case 3:
-		mainRSA(melhorCaminhoRSA, pontos);
-		break;
-	}
-	
-	system("pause");
-
+// 	printf("\n Links = %d, NumeroVertices = %d \n", numeroLinks, quantidadeVertices);
+//
+// 	//Calcula a distancia total do grafo a a partir do melhor caminho
+// 	printf("\n _________________________________________________\n");
+// 	printf("\n|                      Menu                       |\n");
+// 	printf("\n|_________________________________________________|\n");
+// 	printf("\n|  1 - Algoritmo Genï¿½tico                         |");
+// 	printf("\n|  2 - Forï¿½a Bruta                                |");
+// 	printf("\n|  3 - RSA                                        |");
+// 	printf("\n|_________________________________________________|\n");
+// 	scanf("%d", &opcao);
+//
+// 	distanciaTotalOriginal = calculaComprimentoTotal(caminhoOriginal);
+//
+// 	switch (opcao)
+// 	{
+// 	case 1:
+// 		melhorCaminho = algoritmoGenetico();
+// 		montaSaidaComprimento("GA", pontos, caminhoOriginal, distanciaTotalOriginal, melhorCaminho, tempo_gasto);
+//
+// 		printf("\n distancia Total %f KM\n", distanciaTotalOriginal);
+// 		printf("\n distancia Total Do GA %f KM\n", melhorCaminho.custoCaminho);
+//
+// 		printf("\n distancia Total %f KM\n", distanciaTotalOriginal);
+// 		printf("\n distancia Total Do GA %f KM\n", melhorCaminho.custoCaminho);
+//
+// 		break;
+// 	case 2:
+// 		melhorCaminho = mainForcaBruta(caminhoOriginal);
+// 		tf = clock();
+// 		tempo_gasto = ((double)(tf - t0)) / CLOCKS_PER_SEC;
+// 		montaSaidaComprimento("Forï¿½aBruta",pontos, caminhoOriginal, distanciaTotalOriginal, melhorCaminho, tempo_gasto);
+// 		break;
+// 	case 3:
+// 		mainRSA(melhorCaminhoRSA, pontos);
+// 		break;
+// 	}
+//
+// 	system("pause");
+//
 	free(matrizD);
 	free(caminhoOriginal);
 	pontos.clear();
