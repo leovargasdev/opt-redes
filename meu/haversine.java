@@ -31,17 +31,18 @@ class Haversine{
 
     public double[][] calculo(List<Nodo> nodos, int tam){
         double[][] mat = new double[tam][tam];
-        double d = 0.0;
         for(int g = 0; g < tam; g++){
             for(int f = 0; f < tam; f++){
-                if(g == f){
+                if(g == f)
                     mat[g][f] = 0;
-                }else{
-                    d = this.distancia(nodos.get(g), nodos.get(f));
-                    mat[g][f] = d;
-                    mat[f][g] = d;
-                }
+                else
+                    mat[g][f] = mat[f][g] = this.distancia(nodos.get(g), nodos.get(f));
             }
+        }
+         for (int k = 0; k < tam; k++){
+            for (int p = 0; p < tam; p++)
+                System.out.printf("%.1f ", mat[k][p]);
+            System.out.println();
         }
         return mat;
     }

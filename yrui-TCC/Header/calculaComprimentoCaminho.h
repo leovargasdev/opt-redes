@@ -1,28 +1,29 @@
 /*
-	Author: Yruí Giovan Neris - yruigneris@gmail.com - 2017
-	Universidade Federal da Fronteira Sul - Chapecó - SC
-	Trabalho de Conclusão de Curso:
-		- Ciência da Computação
-		- Problema Quadrático de Alocação aplicado ao Mapeamento de Topologias de Redes Ópticas de Transporte de Telecomunicações
+	Author: Yruï¿½ Giovan Neris - yruigneris@gmail.com - 2017
+	Universidade Federal da Fronteira Sul - Chapecï¿½ - SC
+	Trabalho de Conclusï¿½o de Curso:
+		- Ciï¿½ncia da Computaï¿½ï¿½o
+		- Problema Quadrï¿½tico de Alocaï¿½ï¿½o aplicado ao Mapeamento de Topologias de Redes ï¿½pticas de Transporte de Telecomunicaï¿½ï¿½es
 */
 
-//Essa função busca os vizinhos do vértice
+//Essa funï¿½ï¿½o busca os vizinhos do vï¿½rtice
 void buscaVizinhos(int vertice, int *vizinhos) {
 	int i;
 	int j = 0;
-	//Le a matriz F, e guarda no vetor vizinhos todos os valores da coluna que possui o número 1
+	//Le a matriz F, e guarda no vetor vizinhos todos os valores da coluna que possui o nï¿½mero 1
 	//1 represente que existe conectividade entre o vertice linha e o vertice coluna
 	for (i = 0; i < quantidadeVertices; i++) {
 		if (matrizF[vertice * quantidadeVertices + i] == 1 && i > vertice) {
 			vizinhos[j] = i;
+			printf("conexoes[%d][%d]\n", vertice, i);
 			j++;
 		}
 	}
 }
 
-//Essa função le o vertice e ve quais são os seus vizinhos,
-//encontra qual a posiçao dos seus vizinhos no caminho e calcula a distancia do vertice 
-//para os demais posicoes do caminho, é utilizado o indice do caminho e não o valor do mesmo
+//Essa funï¿½ï¿½o le o vertice e ve quais sï¿½o os seus vizinhos,
+//encontra qual a posiï¿½ao dos seus vizinhos no caminho e calcula a distancia do vertice
+//para os demais posicoes do caminho, ï¿½ utilizado o indice do caminho e nï¿½o o valor do mesmo
 double calculaDistanciaVertice(int posicaoVertice, int *melhorCaminho, int *vizinhos) {
 	int i;
 	double distancia = 0.0;
@@ -38,8 +39,7 @@ double calculaDistanciaVertice(int posicaoVertice, int *melhorCaminho, int *vizi
 					j = quantidadeVertices;
 				}
 			}
-		}
-		else {
+		} else {
 			return distancia;
 		}
 	}
@@ -47,7 +47,7 @@ double calculaDistanciaVertice(int posicaoVertice, int *melhorCaminho, int *vizi
 	return distancia;
 }
 
-//Le todas as posições do caminho e calcula a distancia com os demais vertices que ele tem conectividade
+//Le todas as posiï¿½ï¿½es do caminho e calcula a distancia com os demais vertices que ele tem conectividade
 double calculaComprimentoTotal(int *caminho) {
 
 	int i,j;
@@ -71,6 +71,6 @@ double calculaComprimentoTotal(int *caminho) {
 		//Calcula a distancia total do vertice para seus vizinhos
 		distanciaTotal += calculaDistanciaVertice(i, caminho, vizinhos);
 	}
-
+	printf("distanciaTotalOriginal: %d\n", distanciaTotal);
 	return distanciaTotal;
 }
