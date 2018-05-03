@@ -2,12 +2,12 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 class main{
-    private static int quant = 0;
+    private static int nNodos = 0;
 
     public static byte[][] leEnlaces(List<String> enlaces){
-        byte[][] conex = new byte[quant][quant];
-        for (int k = 0; k < quant; k++)
-            for (int p = 0; p < quant; p++)
+        byte[][] conex = new byte[nNodos][nNodos];
+        for (int k = 0; k < nNodos; k++)
+            for (int p = 0; p < nNodos; p++)
                 conex[k][p] = 0;
         for(String l : enlaces){
             l = l.replaceAll("\t", " ");
@@ -16,8 +16,8 @@ class main{
             conex[v1][v2] = conex[v2][v1] = 1;
         }
         // PRINT DA MATRIZ
-        // for (int k = 0; k < quant; k++){
-        //     for (int p = 0; p < quant; p++)
+        // for (int k = 0; k < nNodos; k++){
+        //     for (int p = 0; p < nNodos; p++)
         //         System.out.print(conex[k][p] + " ");
         //     System.out.println();
         // }
@@ -33,18 +33,28 @@ class main{
         // Imprime lista
         // for(Nodo a : nodos) a.getCampos();
 
-        quant = nodos.size();
+        nNodos = nodos.size();
 
         // CRIAÇÃO MATRIZ DE DISTANCIAS:
         Haversine c = new Haversine();
-        double[][] custos = c.calculo(nodos, quant);
+        double[][] custos = c.calculo(nodos, nNodos);
 
 
         // CRIAÇÃO MATRIZ DE CONEXÕES:
         byte[][] conexoes = leEnlaces(Files.readAllLines(FileSystems.getDefault().getPath(input[1])));
 
         Calculo yeap = new Calculo();
-        double dTotal = yeap.dTotal(custos, conexoes, quant);
+        double dTotal = yeap.dTotal(custos, conexoes, nNodos);
         System.out.println("Distacia total: " + dTotal);
+
+        Genetico algoTOPTOP;
+        if (nNodos <= 20)
+    		algoTOPTOP = new Genetico(500, 2000, 80, 0.7, 0.6, 100);
+    	else if (nNodos > 20 && nNodos <= 40)
+            algoTOPTOP = new Genetico(2000, 10000, 90, 0.8, 0.8, 2);
+    	else if (nNodos > 40 && nNodos <= 60)
+            algoTOPTOP = new Genetico(4000, 40000, 100, 0.9, 0.9, 4);
+    	else
+            System.out.println("Perdi!");
     }
 }
