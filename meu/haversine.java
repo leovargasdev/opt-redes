@@ -39,6 +39,7 @@ class Haversine{
                     mat[g][f] = mat[f][g] = this.distancia(nodos.get(g), nodos.get(f));
             }
         }
+        System.out.println("\nMATRIZ DE DISTANCIAS:");
          for (int k = 0; k < tam; k++){
             for (int p = 0; p < tam; p++)
                 System.out.printf("%.1f ", mat[k][p]);

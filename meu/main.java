@@ -3,7 +3,7 @@ import java.nio.file.*;
 import java.util.*;
 class main{
     private static int nNodos = 0;
-
+    private static int numeroLinks = 0;
     public static byte[][] leEnlaces(List<String> enlaces){
         byte[][] conex = new byte[nNodos][nNodos];
         for (int k = 0; k < nNodos; k++)
@@ -14,13 +14,15 @@ class main{
             String[] enlace = l.split(" ");
             int v1 = (Integer.parseInt(enlace[0]) - 1), v2 = (Integer.parseInt(enlace[1]) - 1);
             conex[v1][v2] = conex[v2][v1] = 1;
+            numeroLinks++;
         }
         // PRINT DA MATRIZ
-        // for (int k = 0; k < nNodos; k++){
-        //     for (int p = 0; p < nNodos; p++)
-        //         System.out.print(conex[k][p] + " ");
-        //     System.out.println();
-        // }
+        System.out.println("\nMATRIZ DE FLUXO:");
+        for (int k = 0; k < nNodos; k++){
+            for (int p = 0; p < nNodos; p++)
+                System.out.print(conex[k][p] + " ");
+            System.out.println();
+        }
         return conex;
     }
 
@@ -47,14 +49,15 @@ class main{
         double dTotal = yeap.dTotal(custos, conexoes, nNodos);
         System.out.println("Distacia total: " + dTotal);
 
-        Genetico algoTOPTOP;
+        Genetico alg;
         if (nNodos <= 20)
-    		algoTOPTOP = new Genetico(500, 2000, 80, 0.7, 0.6, 100);
+    		alg = new Genetico(5000, 100, 80, 0.7, 0.7, 2, 0.2);
     	else if (nNodos > 20 && nNodos <= 40)
-            algoTOPTOP = new Genetico(2000, 10000, 90, 0.8, 0.8, 2);
+            alg = new Genetico(1000, 5000, 90, 0.7, 0.7, 2, 0.4);
     	else if (nNodos > 40 && nNodos <= 60)
-            algoTOPTOP = new Genetico(4000, 40000, 100, 0.9, 0.9, 4);
+            alg = new Genetico(2000, 10000, 100, 0.8, 0.8, 3, 0.4);
     	else
-            System.out.println("Perdi!");
+            alg = new Genetico(2000, 20000, 100, 0.9, 0.9, 4, 0.55);
+        int numeroNosExcedeDistanciaMaxima = (int) Math.round(alg.pMaiorDist * numeroLinks);
     }
 }
