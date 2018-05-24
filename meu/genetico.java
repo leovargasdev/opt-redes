@@ -23,4 +23,5 @@ class Genetico{
         this.nIndivSobrevive = (int) (2 * Math.round(0.1 * this.populacao / 2));
         this.pMaiorDist = j;
     }
+
 }

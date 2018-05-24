@@ -4,26 +4,68 @@ import java.util.*;
 class main{
     private static int nNodos = 0;
     private static int numeroLinks = 0;
-    public static byte[][] leEnlaces(List<String> enlaces){
-        byte[][] conex = new byte[nNodos][nNodos];
+    public static byte[][] conexoes;
+    public static double[][] custos;
+
+    public static int getMaiorGrau(){
+        int maiorGrau = 0, aux = -1;
+        for (int i = 0; i < nNodos; i++) {
+            aux = 0;
+            for (int j = 0; j < nNodos; j++)
+                if (conexoes[i][j] == 1)
+                    aux++;
+            if (aux > maiorGrau)
+                maiorGrau = aux;
+        }
+        return (maiorGrau + 1);
+    }
+
+    // public bool myfunction(int i, int j) { return (i<j); }
+
+    // public double buscaMaiorDistancia(int p, int grau) {
+    //     vector<double> vetorDistancias(distancias, distancias + nNodos - 1);
+    //
+    //     sort(vetorDistancias.begin(), vetorDistancias.end());
+    //
+    //     double maiorDistanciaRetorno = vetorDistancias[grau + 1];
+    //     vetorDistancias.clear();
+    //     return maiorDistanciaRetorno;
+    // }
+
+    public static double maiorDistPermitida(){
+        int maiorGrau = getMaiorGrau();
+        System.out.println("maior grau:" + maiorGrau);
+        double maiorDistancia, aux = 0;
+
+        for (i = 0; i < nNodos; i++) {
+            aux = 0;
+            // Passa o indice do vetor de distancias e o maior grau encontrado do grafo
+            aux = buscaMaiorDistancia(i, maiorGrau);
+            if (aux > maiorDistancia)
+                maiorDistancia = aux;
+        }
+        return maiorDistancia;
+    }
+
+    public static void leEnlaces(List<String> enlaces){
+        conexoes = new byte[nNodos][nNodos];
         for (int k = 0; k < nNodos; k++)
             for (int p = 0; p < nNodos; p++)
-                conex[k][p] = 0;
+                conexoes[k][p] = 0;
         for(String l : enlaces){
             l = l.replaceAll("\t", " ");
             String[] enlace = l.split(" ");
             int v1 = (Integer.parseInt(enlace[0]) - 1), v2 = (Integer.parseInt(enlace[1]) - 1);
-            conex[v1][v2] = conex[v2][v1] = 1;
+            conexoes[v1][v2] = conexoes[v2][v1] = 1;
             numeroLinks++;
         }
         // PRINT DA MATRIZ
         System.out.println("\nMATRIZ DE FLUXO:");
         for (int k = 0; k < nNodos; k++){
             for (int p = 0; p < nNodos; p++)
-                System.out.print(conex[k][p] + " ");
+                System.out.print(conexoes[k][p] + " ");
             System.out.println();
         }
-        return conex;
     }
 
     public static void main(String[] input) throws IOException{
@@ -39,11 +81,11 @@ class main{
 
         // CRIAÇÃO MATRIZ DE DISTANCIAS:
         Haversine c = new Haversine();
-        double[][] custos = c.calculo(nodos, nNodos);
+        custos = c.calculo(nodos, nNodos);
 
 
         // CRIAÇÃO MATRIZ DE CONEXÕES:
-        byte[][] conexoes = leEnlaces(Files.readAllLines(FileSystems.getDefault().getPath(input[1])));
+        leEnlaces(Files.readAllLines(FileSystems.getDefault().getPath(input[1])));
 
         Calculo yeap = new Calculo();
         double dTotal = yeap.dTotal(custos, conexoes, nNodos);
@@ -59,5 +101,7 @@ class main{
     	else
             alg = new Genetico(2000, 20000, 100, 0.9, 0.9, 4, 0.55);
         int numeroNosExcedeDistanciaMaxima = (int) Math.round(alg.pMaiorDist * numeroLinks);
+        System.out.println("numeroNosExcedeDistanciaMaxima: " + numeroNosExcedeDistanciaMaxima);
+        double maiorDist = maiorDistPermitida();
     }
 }
