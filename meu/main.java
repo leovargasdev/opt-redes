@@ -22,24 +22,19 @@ class main{
 
     // public bool myfunction(int i, int j) { return (i<j); }
 
-    // public double buscaMaiorDistancia(int p, int grau) {
-    //     vector<double> vetorDistancias(distancias, distancias + nNodos - 1);
-    //
-    //     sort(vetorDistancias.begin(), vetorDistancias.end());
-    //
-    //     double maiorDistanciaRetorno = vetorDistancias[grau + 1];
-    //     vetorDistancias.clear();
-    //     return maiorDistanciaRetorno;
-    // }
+    public static double buscaMaiorDistancia(int p, int grau){
+        double[] abc = custos[p];
+        Arrays.sort(abc);
+        return abc[grau+2];
+    }
 
     public static double maiorDistPermitida(){
         int maiorGrau = getMaiorGrau();
-        System.out.println("maior grau:" + maiorGrau);
-        double maiorDistancia, aux = 0;
+        System.out.println("maiorGrau: " + maiorGrau);
+        double maiorDistancia = 0, aux = 0;
 
-        for (i = 0; i < nNodos; i++) {
+        for (int i = 0; i < nNodos; i++) {
             aux = 0;
-            // Passa o indice do vetor de distancias e o maior grau encontrado do grafo
             aux = buscaMaiorDistancia(i, maiorGrau);
             if (aux > maiorDistancia)
                 maiorDistancia = aux;
@@ -103,5 +98,6 @@ class main{
         int numeroNosExcedeDistanciaMaxima = (int) Math.round(alg.pMaiorDist * numeroLinks);
         System.out.println("numeroNosExcedeDistanciaMaxima: " + numeroNosExcedeDistanciaMaxima);
         double maiorDist = maiorDistPermitida();
+        System.out.println("Distancia Maxima = " + maiorDist);
     }
 }
