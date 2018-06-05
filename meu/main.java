@@ -20,10 +20,8 @@ class main{
         return (maiorGrau + 1);
     }
 
-    // public bool myfunction(int i, int j) { return (i<j); }
-
     public static double buscaMaiorDistancia(int p, int grau){
-        double[] abc = custos[p];
+        double[] abc = custos[p].clone();
         Arrays.sort(abc);
         return abc[grau+2];
     }
@@ -78,7 +76,6 @@ class main{
         Haversine c = new Haversine();
         custos = c.calculo(nodos, nNodos);
 
-
         // CRIAÇÃO MATRIZ DE CONEXÕES:
         leEnlaces(Files.readAllLines(FileSystems.getDefault().getPath(input[1])));
 
@@ -86,18 +83,28 @@ class main{
         double dTotal = yeap.dTotal(custos, conexoes, nNodos);
         System.out.println("Distacia total: " + dTotal);
 
-        Genetico alg;
+        Genetico ga;
         if (nNodos <= 20)
-    		alg = new Genetico(5000, 100, 80, 0.7, 0.7, 2, 0.2);
+    		ga = new Genetico(5000, 100, 80, 0.7, 0.7, 2, 0.2, nNodos, custos, conexoes);
     	else if (nNodos > 20 && nNodos <= 40)
-            alg = new Genetico(1000, 5000, 90, 0.7, 0.7, 2, 0.4);
+            ga = new Genetico(1000, 5000, 90, 0.7, 0.7, 2, 0.4, nNodos, custos, conexoes);
     	else if (nNodos > 40 && nNodos <= 60)
-            alg = new Genetico(2000, 10000, 100, 0.8, 0.8, 3, 0.4);
+            ga = new Genetico(2000, 10000, 100, 0.8, 0.8, 3, 0.4, nNodos, custos, conexoes);
     	else
-            alg = new Genetico(2000, 20000, 100, 0.9, 0.9, 4, 0.55);
-        int numeroNosExcedeDistanciaMaxima = (int) Math.round(alg.pMaiorDist * numeroLinks);
+            ga = new Genetico(2000, 20000, 100, 0.9, 0.9, 4, 0.55, nNodos, custos, conexoes);
+        int numeroNosExcedeDistanciaMaxima = (int) Math.round(ga.pMaiorDist * numeroLinks);
         System.out.println("numeroNosExcedeDistanciaMaxima: " + numeroNosExcedeDistanciaMaxima);
+
         double maiorDist = maiorDistPermitida();
         System.out.println("Distancia Maxima = " + maiorDist);
+        List<Caminho> caminhos = new ArrayList<Caminho>();
+        ga.inicializaPopulacao(caminhos, 10, "", numeroNosExcedeDistanciaMaxima, maiorDist);
+
+        for(Caminho a : caminhos){
+            String[] abc = a.caminho.split(" ");
+            for(String g : abc)
+                System.out.print(g + "\t");
+            System.out.println();
+        }
     }
 }

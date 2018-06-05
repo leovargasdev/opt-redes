@@ -15,7 +15,6 @@ class Calculo{
         for(int k = 0; k < tam; k++)
             for (int i = k+1; i < tam; i++)
                 if(conexoes[k][i] == 1)
-                    // System.out.println("conexoes["+k+"]["+i+"]");
                     distancia+= custos[k][i];
         return distancia;
     }
