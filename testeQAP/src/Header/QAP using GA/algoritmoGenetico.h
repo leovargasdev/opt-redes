@@ -54,8 +54,6 @@ vector<Caminho>  buscaCaminhosNaoEquivalentes(vector<Caminho> caminhosNaoEquival
 	return caminhosNaoEquivalentes;
 }
 
-
-
 //Fun��o que gera individuos aleat�rios
 vector<Caminho> inicializaPopulacao(vector<Caminho> caminhos, int numeroPopulacao, char *caminhoInicial) {
 	Caminho caminho;
