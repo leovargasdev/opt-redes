@@ -8,12 +8,7 @@ class Haversine{
     private double converte(double angulo){
         return angulo * (this.pi / 180);
     }
-    // Funções do Math:
-    //      --> atan2() converte coordenadas retangulares em coordenadas polares
-    //      --> pow() elava um número à potência
-    //      --> sqrt() raiz quadrada
-    //      --> cos() calcula o coseno
-    //      --> sin() calcula o seno
+    
     private double distancia(Nodo n1, Nodo n2){
         double latD = converte(n2.getLat() - n1.getLat());
     	double lonD = converte(n2.getLong() - n1.getLong());
@@ -42,9 +37,10 @@ class Haversine{
         System.out.println("\nMATRIZ DE DISTANCIAS:");
          for (int k = 0; k < tam; k++){
             for (int p = 0; p < tam; p++)
-                System.out.printf("%.1f ", mat[k][p]);
+                System.out.printf("%.1f\t", mat[k][p]);
             System.out.println();
         }
+        System.out.println();
         return mat;
     }
 

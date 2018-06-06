@@ -2,7 +2,7 @@ import java.util.*;
 class Genetico{
     private int nRodadas;               // Nº maximo de interações
     private int nRodSemAlt;             // Nº de interações sem fazer alteração
-    public int populacao;              // Tamanho da população
+    private int populacao;               // Tamanho da população
     private double pc;                  // Porcentagem do Crossover
     private int nPais;                  // Nº de pais
     private double pm;                  // Porcentagem de sobreviventes apos mutação
@@ -10,14 +10,11 @@ class Genetico{
     private int beta;                   // Selection Pressure Utilizado para Roleta
     // private double pIndivSobrevive;  // Porcentagem de individuos sobreviventes apos o nRodadas
     private double nIndivSobrevive;     // Nº de individuos sobreviventes apos o nRodadas
-    public double pMaiorDist;          //Porcentagem de links de um individuo que pode exceder a distancia maxima permitida
+    public double pLinksIndiv;          //Porcentagem de links de um individuo que pode exceder a distancia maxima permitida
     private int nRenovacoes;
-    private int nn;
-    private byte[][] conexoes;
-    private double[][] custos;
     private Random hugo = new Random();
 
-    public Genetico(int a, int b, int c, double d, double e, int f, double j, int nn, double[][] cu, byte[][] co){
+    public Genetico(int a, int b, int c, double d, double e, int f, double j){
         this.nRodadas = a;
         this.nRodSemAlt = b;
         this.populacao = c;
@@ -27,11 +24,8 @@ class Genetico{
         this.nMutacoes = (int) Math.round(this.pm * this.populacao);
         this.beta = f;
         this.nIndivSobrevive = (int) (2 * Math.round(0.1 * this.populacao / 2));
-        this.pMaiorDist = j;
-        this.nRenovacoes = 0;
-        this.nn = nn;
-        this.custos = cu.clone();
-        this.conexoes = co.clone();
+        this.pLinksIndiv = j;
+        this.nRenovacoes = 1;
     }
 
     public String vConverteInt(int[] vetor){
@@ -41,9 +35,9 @@ class Genetico{
         return result;
     }
 
-    public int[] vConverteString(String[] vetor){
-        int[] result = new int[this.nn];
-        for(int t = 0; t < this.nn; t++){
+    public int[] vConverteString(String[] vetor, int tam){
+        int[] result = new int[tam];
+        for(int t = 0; t < tam; t++){
             result[t] = Integer.parseInt(vetor[t]);
             System.out.print(result[t] + " ");
         }
@@ -51,17 +45,17 @@ class Genetico{
         return result;
     }
 
-    public double calculaCusto(int[] caminho, int validaCusto, int nExceMax, double maiorDist){
+    public double calculaCusto(int[] caminho, int validaCusto, PackGenetico pg){
     	int totalExecedeMaxima = 0;
     	double custo = 0.0;
-    	for (int i = 0; i < this.nn; i++){
-    		for (int j = i+1; j < this.nn; j++){
-                if(this.conexoes[i][j] == 1){
-                    double aux = this.custos[caminho[i]][caminho[j]];
-        			if (validaCusto == 1 && aux > maiorDist)
+    	for (int i = 0; i < pg.nNodos; i++){
+    		for (int j = i+1; j < pg.nNodos; j++){
+                if(pg.conexoes[i][j] == 1){
+                    double aux = pg.custos[caminho[i]][caminho[j]];
+        			if (validaCusto == 1 && aux > pg.maiorDist)
         				totalExecedeMaxima++;
 
-        			if (totalExecedeMaxima > nExceMax)
+        			if (totalExecedeMaxima > pg.nNosExeDistMax)
         				return 0;
 
         			custo += aux;
@@ -81,38 +75,39 @@ class Genetico{
         return false;
     }
 
-    public void inicializaPopulacao(List<Caminho> caminhos, int nPopu, String ci, int nExceMax, double maiorDist){
+    public void inicializaPopulacao(List<Caminho> caminhos, int subPopulacao, String ci, PackGenetico pg){
+        int nPopu = this.populacao - subPopulacao;
         double custoC = 0.0;
-        int[] caminhoV = new int[this.nn];
+        int[] caminhoV = new int[pg.nNodos];
         int vGerado = 0;
         if(this.nRenovacoes == 2){
-            for (int g = 0; g < this.nn; g++)
+            for (int g = 0; g < pg.nNodos; g++)
                 caminhoV[g] = g;
-            custoC = calculaCusto(caminhoV, 0, nExceMax, maiorDist);
+            custoC = calculaCusto(caminhoV, 0, pg);
             caminhos.add(new Caminho(custoC, vConverteInt(caminhoV)));
         }
 
         if (ci != ""){
-            caminhoV = vConverteString(ci.split(" "));
-            custoC = calculaCusto(caminhoV, 0, nExceMax, maiorDist);
+            caminhoV = vConverteString(ci.split(" "), pg.nNodos);
+            custoC = calculaCusto(caminhoV, 0, pg);
             caminhos.add(new Caminho(custoC, vConverteInt(caminhoV)));
         }
 
         for (int i = 0; i < nPopu; i++){
 
-            for (int j = 0; j < this.nn; j++){
+            for (int j = 0; j < pg.nNodos; j++){
                 do{
-                    vGerado = hugo.nextInt(this.nn);
+                    vGerado = hugo.nextInt(pg.nNodos);
                 }while(testaValor(caminhoV, vGerado, j));
                 caminhoV[j] = vGerado;
             }
 
-            custoC = calculaCusto(caminhoV, 1, nExceMax, maiorDist);
+            custoC = calculaCusto(caminhoV, 1, pg);
 
             if(custoC != 0) caminhos.add(new Caminho(custoC, vConverteInt(caminhoV)));
-            else i--; // Para não avançar no for
+            else i--; // Para não avançar no loop
 
-            for (int t = 0; t < this.nn; t++)
+            for (int t = 0; t < pg.nNodos; t++)
     			caminhoV[t] = -1;
         }
     }
