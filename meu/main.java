@@ -4,11 +4,21 @@ import java.util.*;
 class main{
     public static PackGenetico pg;
 
+    //PRINT CAMINHOS:
+    // for(Caminho a : caminhos){
+    //     String[] abc = a.caminho.split(" ");
+    //     for(String g : abc)
+    //         System.out.print(g + ",");
+    //     System.out.println("  -> custo: " + a.getCusto());
+    // }
+
     public static void main(String[] input) throws IOException{
         // CRIAÇÃO NODOS:
         Haversine c = new Haversine();
         List<Nodo> nodos = new ArrayList<Nodo>();
         Genetico ga;
+        double pEquivalenciaPermitida = 0.0; //Parametro usado para permitir a equivalencia entre os N�o selecionados
+        int nEquivalentesPermitidos = 0;
         for(String l : Files.readAllLines(FileSystems.getDefault().getPath(input[0])))
             if(!l.startsWith("Id	"))
                 nodos.add(new Nodo(l));
@@ -33,25 +43,35 @@ class main{
         pg.geraMaiorDistPermitida();
         System.out.println("Distancia Maxima: " + pg.maiorDist);
 
-        double tes = 0.0;
-
-        for (int t = 0; t < pg.nNodos; t++){
-            for (int w = t+1; w < pg.nNodos; w++){
-                if(pg.conexoes[t][w] == 1)
-                    tes += pg.custos[t][w];
-            }
-        }
-        System.out.println("Distancia Maxima 2: " + tes);
-
-
         List<Caminho> caminhos = new ArrayList<Caminho>();
         ga.inicializaPopulacao(caminhos, 0, "", pg);
-
+        System.out.println("\n\n ** ANTES DO SORT ** \n\n");
         for(Caminho a : caminhos){
             String[] abc = a.caminho.split(" ");
             for(String g : abc)
-                System.out.print(g + "\t");
+                System.out.print(g + ",");
             System.out.println("  -> custo: " + a.getCusto());
         }
+
+        List<Caminho> caminhosCrossover, caminhosMutacao, caminhosNaoSelecionados, caminhosEquivalencia, caminhosMutacionados;
+        Caminho CaminhoMutacionado;
+        int iteracoes;
+    	int iCrossover, iMutacao, iTruncate, iCaminhosMutacionados;
+    	int numeroCaminhos;
+
+        if (ga.nIndivSobrevive == 0) ga.nIndivSobrevive = 1;
+
+        nEquivalentesPermitidos = (int) Math.round((pEquivalenciaPermitida * pg.nNodos));
+        System.out.println("numeroEquivalentesPermitidos: " + nEquivalentesPermitidos);
+
+        Collections.sort(caminhos, new Comparator(){
+            public int compare(Object o1, Object o2){
+                Caminho p1 = (Caminho) o1;
+                Caminho p2 = (Caminho) o2;
+                return p1.getCusto() < p2.getCusto() ? -1 : (p1.getCusto() > p2.getCusto() ? +1 : 0);
+            }
+        });
+
+
     }
 }

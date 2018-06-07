@@ -112,6 +112,9 @@ Caminho algoritmoGenetico() {
 	int numeroCaminhos;
 	vector<Caminho> caminhos;
 	caminhos = inicializaPopulacao(caminhos, nPop);
+	// for (int i = 0; i < 10; i++)
+	// 	cout << "caminho: " << caminhos[i].caminho << ", custo: " << caminhos[i].custoCaminho << "\n";
+
 	vector<Caminho> caminhosCrossover;
 	vector<Caminho> caminhosMutacao;
 	vector<Caminho> caminhosNaoSelecionados;
@@ -126,7 +129,8 @@ Caminho algoritmoGenetico() {
 	sort(caminhos.begin(), caminhos.end(), comparaCusto);
 
 	numeroEquivalentesPermitidos = round(porcentagemEquivalenciaPermitida * quantidadeVertices);
-
+	cout << "numeroEquivalentesPermitidos: " << numeroEquivalentesPermitidos << "\n";
+	return caminhos[0];
 	double melhorCusto = 0;
 	double piorCusto;
 	int individuoCross1 = 0;

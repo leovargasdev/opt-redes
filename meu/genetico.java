@@ -9,7 +9,7 @@ class Genetico{
     private int nMutacoes;              // Nº de mutações
     private int beta;                   // Selection Pressure Utilizado para Roleta
     // private double pIndivSobrevive;  // Porcentagem de individuos sobreviventes apos o nRodadas
-    private double nIndivSobrevive;     // Nº de individuos sobreviventes apos o nRodadas
+    public double nIndivSobrevive;     // Nº de individuos sobreviventes apos o nRodadas
     public double pLinksIndiv;          //Porcentagem de links de um individuo que pode exceder a distancia maxima permitida
     private int nRenovacoes;
     private Random hugo = new Random();
@@ -76,7 +76,8 @@ class Genetico{
     }
 
     public void inicializaPopulacao(List<Caminho> caminhos, int subPopulacao, String ci, PackGenetico pg){
-        int nPopu = this.populacao - subPopulacao;
+        // int nPopu = this.populacao - subPopulacao;
+        int nPopu = 10;
         double custoC = 0.0;
         int[] caminhoV = new int[pg.nNodos];
         int vGerado = 0;
@@ -111,5 +112,4 @@ class Genetico{
     			caminhoV[t] = -1;
         }
     }
-
 }

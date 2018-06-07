@@ -1,0 +1,15 @@
+Id	Lat	Long			
+Palo Alto	37.441	-122.142			
+Seattler	47.57	-122.386			
+San Diego	32.761	-117.125			
+Salt LK city	40.693	-111.891			
+Boulder	40.015	-105.27			
+Houston	29.771	-95.407			
+Lincoln	40.807	-96.681			
+Champaign	40.116	-88.243			
+Pittsburgh	40.497	-79.997			
+Atalanta	33.796	-84.348			
+Ann Arbor	42.27	-83.726			
+Ithaca	42.44	-76.496			
+College Pk	38.98	-76.936			
+Princeton	40.298	-74.612			
