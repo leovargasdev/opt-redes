@@ -45,17 +45,9 @@ class main{
 
         List<Caminho> caminhos = new ArrayList<Caminho>();
         ga.inicializaPopulacao(caminhos, 0, "", pg);
-        System.out.println("\n\n ** ANTES DO SORT ** \n\n");
-        for(Caminho a : caminhos){
-            String[] abc = a.caminho.split(" ");
-            for(String g : abc)
-                System.out.print(g + ",");
-            System.out.println("  -> custo: " + a.getCusto());
-        }
 
         List<Caminho> caminhosCrossover, caminhosMutacao, caminhosNaoSelecionados, caminhosEquivalencia, caminhosMutacionados;
         Caminho CaminhoMutacionado;
-        int iteracoes;
     	int iCrossover, iMutacao, iTruncate, iCaminhosMutacionados;
     	int numeroCaminhos;
 
@@ -72,6 +64,28 @@ class main{
             }
         });
 
+
+        double mCusto = 0.0, pCusto = 0.0, somaCustos;
+    	int individuoCross1 = 0, individuoCross2 = 0;
+    	double *P = new double[nPop]; ????????????????
+        System.out.println("numero: " + pg.hugo.nextInt(pg.nNodos));
+    	int repeticoesSemAlteracao = 0;
+    	int iTotais = 0;
+        while(repeticoesSemAlteracao < pg.nRodSemAlt){
+            for(int rodadas = 0; rodadas < nRodadas; rodadas++){
+                if (mCusto <= caminhosget(0).getCusto())
+    				repeticoesSemAlteracao++; // significa que melhorou
+    			else
+    				repeticoesSemAlteracao = 0;
+                // Printa uma amostra da evolução do algoritmo
+                if (iTotais % 10 == 0) System.out.println(caminhos.get(0).getCusto() + ", It(" + iTotais + ")");
+                iTotais++;
+                mCusto = caminhos.get(0).custoCaminho;
+                pCusto = caminhos.get(caminhos.size() - 1).getCusto();
+                // Esse metodo gera uma nova população 'boa' e já faz o crossover nos individuos.
+                // ga.executaCrossover();
+            }
+        }
 
     }
 }
