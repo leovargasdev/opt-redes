@@ -15,8 +15,4 @@ class Caminho{
         this.custoCaminho = c;
     }
 
-    public Boolean comparaCusto(Caminho fulano){
-        return (this.getCusto() > fulano.getCusto());
-    }
-
 }

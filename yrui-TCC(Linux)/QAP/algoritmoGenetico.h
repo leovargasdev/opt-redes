@@ -159,16 +159,6 @@ Caminho algoritmoGenetico() {
 			iteracoesTotais++;
 			melhorCusto = caminhos[0].custoCaminho;
 			piorCusto = caminhos[caminhos.size() - 1].custoCaminho;
-
-
-
-
-
-			
-
-
-
-
 			//Atualiza matriz que divide os bilhetes entre os caminhos, onde cada um recebe um peso relacionado ao seu custo
 			// e o pior custo da popula��o
 			for (i = 0; i < nPop; i++) {
@@ -186,6 +176,11 @@ Caminho algoritmoGenetico() {
 				individuoCross2 = roletaSeleciona(P);
 				caminhosCrossover = crossover(caminhosCrossover, caminhos, individuoCross1, individuoCross2);
 			}
+
+
+
+
+			
 			int individuoAleatorioMutacao;
 			//Faz a muta��o de um individuo, gerando um novo individuo
 			for (iteracoesMutacao = 0; iteracoesMutacao < nm; iteracoesMutacao++) {
@@ -211,7 +206,6 @@ Caminho algoritmoGenetico() {
 			for (iteracoesTruncate = nPop; iteracoesTruncate < numeroCaminhos; iteracoesTruncate++) {
 				caminhosNaoSelecionados.push_back(caminhos[nPop]);
 				caminhos.erase(caminhos.begin() + nPop);
-
 			}
 			caminhosEquivalencia.clear();
 			caminhosMutacao.clear();

@@ -37,7 +37,7 @@ vector<Caminho> crossover(vector<Caminho> caminhosCrossover, vector<Caminho> cam
 	int *repeteInicioInd2noFimInd1 = new int[corte];
 
 	int i, j, k;
-	//Divide o individuo em duas partes, e seta o individuo comforme o tamanho da parte
+	//Divide o individuo em duas partes, e seta o individuo conforme o tamanho da parte
 	for (i = 0; i < corte; i++) {
 		repeteInicioInd1noFimInd2[i] = -1;
 		repeteInicioInd2noFimInd1[i] = -1;

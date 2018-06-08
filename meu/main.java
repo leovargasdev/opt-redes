@@ -42,6 +42,5 @@ class main{
         System.out.println("Distancia Maxima: " + pg.maiorDist);
 
         Caminho ultraMelhorCaminho = ga.executaAG(pg);
-
     }
 }
