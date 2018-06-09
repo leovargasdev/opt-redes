@@ -130,7 +130,7 @@ Caminho algoritmoGenetico() {
 
 	numeroEquivalentesPermitidos = round(porcentagemEquivalenciaPermitida * quantidadeVertices);
 	cout << "numeroEquivalentesPermitidos: " << numeroEquivalentesPermitidos << "\n";
-	return caminhos[0];
+	// return caminhos[0];
 	double melhorCusto = 0;
 	double piorCusto;
 	int individuoCross1 = 0;
@@ -180,7 +180,7 @@ Caminho algoritmoGenetico() {
 
 
 
-			
+
 			int individuoAleatorioMutacao;
 			//Faz a muta��o de um individuo, gerando um novo individuo
 			for (iteracoesMutacao = 0; iteracoesMutacao < nm; iteracoesMutacao++) {
@@ -237,5 +237,6 @@ Caminho algoritmoGenetico() {
 	}
 	free(P);
 	caminhoRetorno = caminhos[0];
+	std::cout << "custo: " << caminhoRetorno.custoCaminho << '\n';
 	return caminhoRetorno;
 }

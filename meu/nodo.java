@@ -5,9 +5,10 @@ class Nodo{
 
     public Nodo(String l){
         String[] campos = l.replaceAll("\t", " ").split(" ");
+        int aux = campos.length-1;
         this.city = campos[0];
-        this.lati = Double.parseDouble(campos[1]);
-        this.longi = Double.parseDouble(campos[2]);
+        this.lati = Double.parseDouble(campos[aux-1]);
+        this.longi = Double.parseDouble(campos[aux]);
     }
     public double getLat(){
         return this.lati;

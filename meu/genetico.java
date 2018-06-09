@@ -41,9 +41,7 @@ class Genetico{
         int[] result = new int[pg.nNodos];
         for(int t = 0; t < pg.nNodos; t++){
             result[t] = Integer.parseInt(vetor[t]);
-            // System.out.print(result[t] + " ");
         }
-        System.out.println();
         return result;
     }
 
@@ -57,8 +55,8 @@ class Genetico{
         			if (validaCusto == 1 && aux > pg.maiorDist)
         				totalExecedeMaxima++;
 
-        			if (totalExecedeMaxima > pg.nNosExeDistMax)
-        				return 0;
+        			// if (totalExecedeMaxima > pg.nNosExeDistMax)
+        			// 	return 0;
 
         			custo += aux;
                 }
@@ -160,17 +158,6 @@ class Genetico{
             caminhos.add(new Caminho(custo, vConverteInt(caminhoC)));
         else
             System.out.println("\n**Discartado**\ncusto: " + custo + "\t caminho: " + vConverteInt(caminhoF));
-
-
-        // int ff = caminhosCrossover.size() - 1;
-        // System.out.println("\ncorte: " + corte);
-        // System.out.println("[fulano] caminho: " + fulano.caminho + "\t[ciclano] caminho: " + ciclano.caminho);
-        // System.out.println("[filho1] caminho: " + caminhosCrossover.get(ff - 1).caminho + "\t[filho2] caminho : " + caminhosCrossover.get(ff).caminho);
-        //
-        // System.out.println("\n[fulano] custo: " + fulano.getCusto() + "\t[ciclano] custo: " + ciclano.getCusto());
-        // System.out.println("[filho1] custo: " + caminhosCrossover.get(ff - 1).getCusto() + "\t[filho2] custo : " + caminhosCrossover.get(ff).getCusto());
-        //
-        // System.out.println("\n**\n");
     }
 
     public void executaCrossover(List<Caminho> caminhos){
@@ -179,9 +166,51 @@ class Genetico{
             ps = selecionaIndividuo(u, tam); //Primeiro Selecionado
             do{
                 ss = selecionaIndividuo(u+1, tam); //Segundo Selecionado
-                if(ss == ps) System.out.println("\n\n\n\nENTROOOOOOOOOOOOOU\n\n\n\n\n");
+                if(ss == ps) System.out.println("ENTROOOOOOOOOOOOOU");
             }while(ss == ps);
             crossover(caminhos, caminhos.get(ps), caminhos.get(ss));
+        }
+    }
+
+    public void executaMutacoes(List<Caminho> caminhos){
+        int tam = caminhos.size(), tMutacao, individuo, aux;
+        int[] novoCaminho;
+        String tipoM = "";
+        double custo, menorc = caminhos.get(0).getCusto();
+        for (int m = 0; m < nMutacoes; m++){
+            individuo = hugo.nextInt(tam);
+            tMutacao = hugo.nextInt(3);
+            novoCaminho = vConverteString(caminhos.get(individuo).caminho.split(" "));
+            if(tMutacao == 0) { //Somatorio
+                tipoM = "Somatorio";
+                do{
+                    aux = hugo.nextInt(pg.nNodos-1); // soma não pode ser 0,1 e o ultimo numero disponivel
+                }while(aux < 2);
+                for (int k = 0; k < pg.nNodos; k++)
+                    novoCaminho[k] = (novoCaminho[k] + aux) % pg.nNodos;
+            } else if(tMutacao == 1) { //Troca
+                tipoM = "Troca";
+                aux = hugo.nextInt(pg.nNodos);
+                int aux2 = hugo.nextInt(pg.nNodos-1);
+                int aux3 = novoCaminho[aux];
+                novoCaminho[aux] = novoCaminho[aux2];
+                novoCaminho[aux2] = aux3;
+            } else { //Inversão
+                tipoM = "Inversão";
+                aux = hugo.nextInt(pg.nNodos);
+                int[] aux2 = novoCaminho.clone();
+                int aux3 = pg.nNodos - 1;
+                for(int y = aux; y < pg.nNodos; y++, aux3--)
+                    novoCaminho[y] = aux2[aux3];
+            }
+            custo = calculaCusto(novoCaminho, 1);
+
+            if(custo < piorCusto)
+                caminhos.add(new Caminho(custo, vConverteInt(novoCaminho)));
+            else
+                System.out.println("\n**[" + tipoM + "]Discartado**\ncusto: " + custo + "\t caminho: " + vConverteInt(novoCaminho));
+            // System.out.println("[selecionado] caminho: " + caminhos.get(individuo).caminho + "\tcusto: " + caminhos.get(individuo).getCusto());
+            // System.out.println("[mutacionado] caminho: " + caminhos.get(caminhos.size()-1).caminho + "\tcusto: " + caminhos.get(caminhos.size()-1).getCusto() + "\n\n");
         }
     }
 
@@ -189,9 +218,6 @@ class Genetico{
         this.pg = pga;
         List<Caminho> caminhos = new ArrayList<Caminho>();
         inicializaPopulacao(caminhos, 0, "");
-
-        List<Caminho> caminhosCrossover, caminhosMutacao, caminhosNaoSelecionados, caminhosEquivalencia, caminhosMutacionados;
-        Caminho CaminhoMutacionado;
 
         if (this.nIndivSobrevive == 0) this.nIndivSobrevive = 1;
 
@@ -207,15 +233,25 @@ class Genetico{
             }
         });
 
+        System.out.println("[melhor inicial] caminho: " + caminhos.get(0).caminho + "\tcusto: " + caminhos.get(0).getCusto());
         piorCusto = caminhos.get(caminhos.size() - 1).getCusto();
 
         int repeticoesSemAlteracao = 0, iTotais = 0;
-
-        for (int g = 0; g < 15; g++){
+        for(int rodadas = 0; rodadas < 100; rodadas++){
             executaCrossover(caminhos);
-            System.out.println("Nº caminhos: " + caminhos.size());
+            executaMutacoes(caminhos);
+            Collections.sort(caminhos, new Comparator(){
+                public int compare(Object o1, Object o2){
+                    Caminho p1 = (Caminho) o1;
+                    Caminho p2 = (Caminho) o2;
+                    return p1.getCusto() < p2.getCusto() ? -1 : (p1.getCusto() > p2.getCusto() ? +1 : 0);
+                }
+            });
+            System.out.println("nº caminhos: " + caminhos.size());
+            for (int h = caminhos.size()-1; h > 300; h--)
+                caminhos.remove(h);
         }
-
+        System.out.println("[melhor final] caminho: " + caminhos.get(0).caminho + "\tcusto: " + caminhos.get(0).getCusto());
         // while(repeticoesSemAlteracao < nRodSemAlt){
         //     for(int rodadas = 0; rodadas < nRodadas; rodadas++){
         //         if (mCusto <= caminhosget(0).getCusto()) repeticoesSemAlteracao++; // significa que melhorou
