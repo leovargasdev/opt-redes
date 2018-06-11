@@ -176,11 +176,6 @@ Caminho algoritmoGenetico() {
 				individuoCross2 = roletaSeleciona(P);
 				caminhosCrossover = crossover(caminhosCrossover, caminhos, individuoCross1, individuoCross2);
 			}
-
-
-
-
-
 			int individuoAleatorioMutacao;
 			//Faz a muta��o de um individuo, gerando um novo individuo
 			for (iteracoesMutacao = 0; iteracoesMutacao < nm; iteracoesMutacao++) {
@@ -194,8 +189,15 @@ Caminho algoritmoGenetico() {
 			//Insere os novos individuos na Popula��o
 			caminhos.insert(caminhos.end(), caminhosCrossover.begin(), caminhosCrossover.end());
 			caminhos.insert(caminhos.end(), caminhosMutacao.begin(), caminhosMutacao.end());
+
+
+
+
 			//Ordena a popula��o conforme o seu custo
 			sort(caminhos.begin(), caminhos.end(), comparaCusto);
+
+
+
 			numeroCaminhos = caminhos.size();
 			caminhosEquivalencia = buscaCaminhosNaoEquivalentes(caminhosEquivalencia, caminhos, quantidadeVertices - 1);
 			if (caminhosEquivalencia.size() < nPop){
