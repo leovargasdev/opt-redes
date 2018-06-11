@@ -8,8 +8,7 @@ class Genetico{
     private double pm;                  // Porcentagem de sobreviventes apos mutação
     private int nMutacoes;              // Nº de mutações
     private int beta;                   // Selection Pressure Utilizado para Roleta
-    // private double pIndivSobrevive;  // Porcentagem de individuos sobreviventes apos o nRodadas
-    public int nIndivSobrevive;      // Nº de individuos sobreviventes apos o nRodadas
+    private int nIndivSobrevive;      // Nº de individuos sobreviventes apos o nRodadas
     public double pLinksIndiv;          //Porcentagem de links de um individuo que pode exceder a distancia maxima permitida
     private int nRenovacoes;
     private Random hugo = new Random();
@@ -27,6 +26,8 @@ class Genetico{
         this.nMutacoes = (int) Math.round(this.pm * this.populacao);
         this.beta = f;
         this.nIndivSobrevive = (int) (2 * Math.round(0.2 * this.populacao / 2));
+        if(this.nIndivSobrevive == 0)
+            this.nIndivSobrevive = 1;
         this.pLinksIndiv = j;
         this.nRenovacoes = 1;
     }
@@ -41,25 +42,15 @@ class Genetico{
     public int[] vConverteString(String[] vetor){
         for(int t = 0; t < pg.nNodos; t++)
             resultCS[t] = Integer.parseInt(vetor[t]);
-        return resultCS;
+        return resultCS; // Essa variavel é global
     }
 
     public double calculaCusto(int[] caminho, int validaCusto){
-    	int totalExecedeMaxima = 0;
     	double custo = 0.0;
     	for (int i = 0; i < pg.nNodos; i++){
     		for (int j = i+1; j < pg.nNodos; j++){
                 if(pg.conexoes[i][j] == 1){
-                    double aux = pg.custos[caminho[i]][caminho[j]];
-        			if (validaCusto == 1 && aux > pg.maiorDist)
-        				totalExecedeMaxima++;
-
-        			// if (totalExecedeMaxima > pg.nNosExeDistMax){
-                    //     System.out.println("ENTROOOOOOOOOOOOOU");
-                    //     return 0;
-                    // }
-
-        			custo += aux;
+                    custo += pg.custos[caminho[i]][caminho[j]];
                 }
     		}
     	}
@@ -69,25 +60,17 @@ class Genetico{
     public Boolean testaValor(int[] vetor, int valor, int p){
         int aux = 0;
         for(int teste : vetor){
-            if(aux == p) return false;
+            if(aux == p) break;
             if(teste == valor) return true;
             aux++;
         }
         return false;
     }
 
-    public void inicializaPopulacao(List<Caminho> caminhos, int subPopulacao){
-        int nPopu = this.populacao - subPopulacao;
-        double custoC = 0.0;
+    public void inicializaPopulacao(List<Caminho> caminhos){
+        int vGerado = 0, nPopu = this.populacao - caminhos.size();
+        double custo = 0.0;
         int[] caminhoV = new int[pg.nNodos];
-        int vGerado = 0;
-        if(this.nRenovacoes == 2){
-            for (int g = 0; g < pg.nNodos; g++)
-                caminhoV[g] = g;
-            custoC = calculaCusto(caminhoV, 0);
-            caminhos.add(new Caminho(custoC, vConverteInt(caminhoV)));
-        }
-
         for (int i = 0; i < nPopu; i++){
             for (int j = 0; j < pg.nNodos; j++){
                 do{
@@ -95,18 +78,17 @@ class Genetico{
                 }while(testaValor(caminhoV, vGerado, j));
                 caminhoV[j] = vGerado;
             }
-            custoC = calculaCusto(caminhoV, 1);
-            if(custoC != 0) caminhos.add(new Caminho(custoC, vConverteInt(caminhoV)));
-            else i--; // Para não avançar no loop
-            for (int t = 0; t < pg.nNodos; t++)
-    			caminhoV[t] = -1;
+            custo = calculaCusto(caminhoV, 1);
+            if(custo > 0)
+                caminhos.add(new Caminho(custo, vConverteInt(caminhoV)));
+            else
+                i--; // Para não avançar no loop
         }
         caminhoV = null;
     }
 
     public void ajustaPopulacao(List<Caminho> caminhos){
         int tamanhoP = caminhos.size();
-        Boolean limpar = false;
         String cTeste = "", cTestado = "";
         for(int a = 0; a < tamanhoP; a++){
             cTeste = caminhos.get(a).caminho;
@@ -117,31 +99,20 @@ class Genetico{
                     c--;
                     tamanhoP = caminhos.size();
                 }
-
                 if(caminhos.get(a).getCusto() < caminhos.get(c).getCusto())
                     break;
             }
-
-            if(a >= populacao){
-                limpar = true;
+            if(a > populacao){ // Estorou o limite populacional
+                while(populacao != caminhos.size())
+                    caminhos.remove(populacao);
                 break;
             }
         }
-
-        if(limpar)
-            while(populacao != caminhos.size())
-                caminhos.remove(populacao);
-        else{
-            // System.out.println("vai renovar\n tamanho atual: " + caminhos.size() + "\ttamanho permitido: " + populacao);
-            inicializaPopulacao(caminhos, caminhos.size());
-        }
-
-
     }
 
     public int selecionaIndividuo(int num, int tam){
         int count = 0, result = 12345678;
-        if(num < nPais*0.4){ // 40% = são os primeiros da lista
+        if(num < nPais*0.2){ // 40% = são os primeiros da lista
             return num;
         } else if (num < nPais*0.7){  // 30% = um individuo aleatorio entre os 70% melhores da população
             tam *= 0.7;
@@ -173,10 +144,12 @@ class Genetico{
         }
 
         custo = calculaCusto(caminhoF, 1);
-        if(custo < piorCusto) caminhos.add(new Caminho(custo, vConverteInt(caminhoF)));
+        if(custo < piorCusto)
+            caminhos.add(new Caminho(custo, vConverteInt(caminhoF)));
 
         custo = calculaCusto(caminhoC, 1);
-        if(custo < piorCusto) caminhos.add(new Caminho(custo, vConverteInt(caminhoC)));
+        if(custo < piorCusto)
+            caminhos.add(new Caminho(custo, vConverteInt(caminhoC)));
 
         caminhoF = null;
         caminhoC = null;
@@ -201,19 +174,19 @@ class Genetico{
             individuo = hugo.nextInt(caminhos.size());
             tMutacao = hugo.nextInt(3);
             novoCaminho = vConverteString(caminhos.get(individuo).caminho.split(" "));
-            if(tMutacao == 0) { //Somatorio
+            if(tMutacao == 0) { // SOMATORIO
                 do{
                     aux = hugo.nextInt(pg.nNodos-1); // soma não pode ser 0,1 e o ultimo numero disponivel
                 }while(aux < 2);
                 for (int k = 0; k < pg.nNodos; k++)
                     novoCaminho[k] = (novoCaminho[k] + aux) % pg.nNodos;
-            } else if(tMutacao == 1) { //Troca
+            } else if(tMutacao == 1) { // TROCA
                 aux = hugo.nextInt(pg.nNodos);
                 int aux2 = hugo.nextInt(pg.nNodos-1);
                 int aux3 = novoCaminho[aux];
                 novoCaminho[aux] = novoCaminho[aux2];
                 novoCaminho[aux2] = aux3;
-            } else { //Inversão
+            } else { // INVERSÃO
                 aux = hugo.nextInt(pg.nNodos);
                 int[] aux2 = novoCaminho.clone();
                 int aux3 = pg.nNodos - 1;
@@ -232,12 +205,7 @@ class Genetico{
         this.pg = pga;
         resultCS = new int[pg.nNodos];
         List<Caminho> caminhos = new ArrayList<Caminho>();
-        inicializaPopulacao(caminhos, 0);
-
-        if (this.nIndivSobrevive == 0) this.nIndivSobrevive = 1;
-
-        double pEquivalenciaPermitida = 0.0; //Parametro usado para permitir a equivalencia entre os N�o selecionados
-        int nEquivalentesPermitidos = (int) Math.round((pEquivalenciaPermitida * pg.nNodos));
+        inicializaPopulacao(caminhos);
 
         Collections.sort(caminhos, new Comparator(){
             public int compare(Object o1, Object o2){
@@ -249,25 +217,23 @@ class Genetico{
 
         System.out.println("[melhor inicial] caminho: " + caminhos.get(0).caminho + "\tcusto: " + caminhos.get(0).getCusto());
 
-        int repeticoesSemAlteracao = 0, iTotais = 0, nCaminhos;
+        int repeticoesSemAlteracao = 0, iTotais = 0;
         double melhorCusto = 0.0;
         while(repeticoesSemAlteracao < nRodSemAlt){
             for(int rodadas = 0; rodadas < nRodadas; rodadas++){
 
-                if (repeticoesSemAlteracao > nRodSemAlt)
+                if (repeticoesSemAlteracao > nRodSemAlt && pg.nNodos > 40)
     				return caminhos.get(0);
 
-                if (melhorCusto <= caminhos.get(0).getCusto()) //Significa que melhorou
+                if (melhorCusto <= caminhos.get(0).getCusto())
                     repeticoesSemAlteracao++;
     			else
                     repeticoesSemAlteracao = 0;
 
-
-                if (iTotais % 250 == 0)
-                    System.out.println(caminhos.get(0).getCusto() + ", It(" + iTotais + ")");
+                if (iTotais % 250 == 0) System.out.println(caminhos.get(0).getCusto() + ", It(" + iTotais + ")");
                 iTotais++;
-
-                piorCusto = caminhos.get(caminhos.size() - 1).getCusto();
+                if(caminhos.size() >= populacao)
+                    piorCusto = caminhos.get(caminhos.size() - 1).getCusto();
                 melhorCusto = caminhos.get(0).getCusto();
 
                 executaCrossover(caminhos);
@@ -283,13 +249,14 @@ class Genetico{
 
                 ajustaPopulacao(caminhos);
             }
+
             if (repeticoesSemAlteracao < nRodSemAlt){ // Muda a população
                 System.out.println("Renova população !!!");
-                System.out.println("numeroIndividuosSobrevivem: " + nIndivSobrevive + ", caminhos.size(): " + caminhos.size());
+
                 while(nIndivSobrevive != caminhos.size())
                     caminhos.remove(nIndivSobrevive);
-                System.out.println("caminhos.size(): " + caminhos.size());
-    			inicializaPopulacao(caminhos, caminhos.size());
+
+    			inicializaPopulacao(caminhos);
     			this.nRenovacoes++;
     		}
         }

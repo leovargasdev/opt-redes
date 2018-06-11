@@ -63,25 +63,15 @@ int main(){
 		printf(";\n");
 	}
 	printf("\n Links = %d, NumeroVertices = %d \n", numeroLinks, quantidadeVertices);
-	//Calcula a distancia total do grafo a a partir do melhor caminho
-	printf("\n _________________________________________________\n");
-	printf("\n|                      Menu                       |\n");
-	printf("\n|_________________________________________________|\n");
-	printf("\n|  1 - Algoritmo Genetico                         |");
-	printf("\n|_________________________________________________|\n");
-	scanf("%d", &opcao);
 
 	distanciaTotalOriginal = calculaComprimentoTotal(caminhoOriginal);
 	printf("\n distancia Total %f KM\n", distanciaTotalOriginal);
-	switch (opcao){
-		case 1:
-			melhorCaminho = algoritmoGenetico();
-			// montaSaidaComprimento("GA", pontos, caminhoOriginal, distanciaTotalOriginal, melhorCaminho, tempo_gasto);
-			// printf("\n distancia Total Do GA %f KM\n", melhorCaminho.custoCaminho);
-			// printf("\n distancia Total %f KM\n", distanciaTotalOriginal);
-			// printf("\n distancia Total Do GA %f KM\n", melhorCaminho.custoCaminho);
-			break;
-	}
+	melhorCaminho = algoritmoGenetico();
+	// montaSaidaComprimento("GA", pontos, caminhoOriginal, distanciaTotalOriginal, melhorCaminho, tempo_gasto);
+	// printf("\n distancia Total Do GA %f KM\n", melhorCaminho.custoCaminho);
+	// printf("\n distancia Total %f KM\n", distanciaTotalOriginal);
+	// printf("\n distancia Total Do GA %f KM\n", melhorCaminho.custoCaminho);
+
 	free(matrizD);
 	free(caminhoOriginal);
 	pontos.clear();

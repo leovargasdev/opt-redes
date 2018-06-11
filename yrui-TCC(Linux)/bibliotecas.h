@@ -39,8 +39,8 @@ double *matrizD;
 clock_t t0, tf;
 double tempo_gasto;
 
-char *caminhoVertices = "arnes_nodes.txt";
-char *caminhoArestas = "arnes_links.txt";
+char *caminhoVertices = "coxUsa_nodes.txt";
+char *caminhoArestas = "coxUsa_links.txt";
 char *caminhoSaida = "";
 
 char melhorCaminhoRSA[tamanhoString] = "0,1,2,3,4,5,6,7,9,8,10,11";

@@ -27,7 +27,7 @@ class main{
         System.out.println("Distacia total: " + pg.dTotal + "\n\n");
 
         if (pg.nNodos <= 20)
-    		ga = new Genetico(5000, 100, 80, 0.7, 0.7, 2, 0.2);
+    		ga = new Genetico(5000, 1000, 80, 0.7, 0.7, 2, 0.2);
     	else if (pg.nNodos > 20 && pg.nNodos <= 40)
             ga = new Genetico(1000, 5000, 90, 0.7, 0.7, 2, 0.4);
     	else if (pg.nNodos > 40 && pg.nNodos <= 60)

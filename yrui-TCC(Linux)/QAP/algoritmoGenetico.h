@@ -141,8 +141,8 @@ Caminho algoritmoGenetico() {
 	int iteracoesTotais = 0;
 	while (repeticoesSemAlteracao < maxItSemAlteracao){
 		for (iteracoes = 0; iteracoes < MaxIt; iteracoes++){
-			if (repeticoesSemAlteracao > maxItSemAlteracao)
-				return caminhos[0];
+			// if (repeticoesSemAlteracao > maxItSemAlteracao)
+			// 	return caminhos[0];
 			somaCustos = 0.0;
 			if (melhorCusto <= caminhos[0].custoCaminho) {
 				repeticoesSemAlteracao++;
