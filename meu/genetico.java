@@ -9,7 +9,7 @@ class Genetico{
     private int nMutacoes;              // Nº de mutações
     private int beta;                   // Selection Pressure Utilizado para Roleta
     // private double pIndivSobrevive;  // Porcentagem de individuos sobreviventes apos o nRodadas
-    public double nIndivSobrevive;      // Nº de individuos sobreviventes apos o nRodadas
+    public int nIndivSobrevive;      // Nº de individuos sobreviventes apos o nRodadas
     public double pLinksIndiv;          //Porcentagem de links de um individuo que pode exceder a distancia maxima permitida
     private int nRenovacoes;
     private Random hugo = new Random();
@@ -26,7 +26,7 @@ class Genetico{
         this.pm = e;
         this.nMutacoes = (int) Math.round(this.pm * this.populacao);
         this.beta = f;
-        this.nIndivSobrevive = (int) (2 * Math.round(0.1 * this.populacao / 2));
+        this.nIndivSobrevive = (int) (2 * Math.round(0.2 * this.populacao / 2));
         this.pLinksIndiv = j;
         this.nRenovacoes = 1;
     }
@@ -147,7 +147,7 @@ class Genetico{
             tam *= 0.7;
             return hugo.nextInt(tam);
         } else {
-            while(count < 2){ // 30% = um individuo aleatorio entre toda população
+            while(count < 2){ // 30% = um individuo aleatorio entre toda população, mas deve sobreviver a dois round'
                 int aux = hugo.nextInt(tam);
                 if(result > aux){
                     result = aux;
@@ -159,8 +159,7 @@ class Genetico{
     }
 
     public void crossover(List<Caminho> caminhos, Caminho fulano, Caminho ciclano){
-        int[] caminhoF = vConverteString(fulano.caminho.split(" "));
-        int[] caminhoC = vConverteString(ciclano.caminho.split(" "));
+        int[] caminhoF = vConverteString(fulano.caminho.split(" ")), caminhoC = vConverteString(ciclano.caminho.split(" "));
         int corte = 0, aux = 0;
         double custo = 0;
         do{
@@ -174,18 +173,10 @@ class Genetico{
         }
 
         custo = calculaCusto(caminhoF, 1);
-        String caminho = vConverteInt(caminhoF);
-        if(custo < piorCusto)
-            caminhos.add(new Caminho(custo, caminho));
-        // else
-            // System.out.println("\n**Discartado**\ncusto: " + custo + "\t caminho: " + vConverteInt(caminhoF));
+        if(custo < piorCusto) caminhos.add(new Caminho(custo, vConverteInt(caminhoF)));
 
         custo = calculaCusto(caminhoC, 1);
-        caminho = vConverteInt(caminhoC);
-        if(custo < piorCusto)
-            caminhos.add(new Caminho(custo, caminho));
-        // else
-            // System.out.println("\n**Discartado**\ncusto: " + custo + "\t caminho: " + vConverteInt(caminhoC));
+        if(custo < piorCusto) caminhos.add(new Caminho(custo, vConverteInt(caminhoC)));
 
         caminhoF = null;
         caminhoC = null;
@@ -197,37 +188,32 @@ class Genetico{
             ps = selecionaIndividuo(u, tam); //Primeiro Selecionado
             do{
                 ss = selecionaIndividuo(u+1, tam); //Segundo Selecionado
-                // if(ss == ps) System.out.println("ENTROOOOOOOOOOOOOU");
-            }while(ss == ps);
+            }while(ss == ps); // ss não pode ser igual ao ps, porque é o mesmo indice, sendo assim o mesmo caminho
             crossover(caminhos, caminhos.get(ps), caminhos.get(ss));
         }
     }
 
     public void executaMutacoes(List<Caminho> caminhos){
-        int tam = caminhos.size(), tMutacao, individuo, aux;
+        int tMutacao, individuo, aux;
         int[] novoCaminho;
-        String tipoM = "";
         double custo, menorc = caminhos.get(0).getCusto();
         for (int m = 0; m < nMutacoes; m++){
-            individuo = hugo.nextInt(tam);
+            individuo = hugo.nextInt(caminhos.size());
             tMutacao = hugo.nextInt(3);
             novoCaminho = vConverteString(caminhos.get(individuo).caminho.split(" "));
             if(tMutacao == 0) { //Somatorio
-                // tipoM = "Somatorio";
                 do{
                     aux = hugo.nextInt(pg.nNodos-1); // soma não pode ser 0,1 e o ultimo numero disponivel
                 }while(aux < 2);
                 for (int k = 0; k < pg.nNodos; k++)
                     novoCaminho[k] = (novoCaminho[k] + aux) % pg.nNodos;
             } else if(tMutacao == 1) { //Troca
-                // tipoM = "Troca";
                 aux = hugo.nextInt(pg.nNodos);
                 int aux2 = hugo.nextInt(pg.nNodos-1);
                 int aux3 = novoCaminho[aux];
                 novoCaminho[aux] = novoCaminho[aux2];
                 novoCaminho[aux2] = aux3;
             } else { //Inversão
-                // tipoM = "Inversão";
                 aux = hugo.nextInt(pg.nNodos);
                 int[] aux2 = novoCaminho.clone();
                 int aux3 = pg.nNodos - 1;
@@ -236,13 +222,8 @@ class Genetico{
                 aux2 = null;
             }
             custo = calculaCusto(novoCaminho, 1);
-            String caminho = vConverteInt(novoCaminho);
             if(custo < piorCusto)
-                caminhos.add(new Caminho(custo, caminho));
-            // else
-                // System.out.println("\n**[" + tipoM + "]Discartado**\ncusto: " + custo + "\t caminho: " + vConverteInt(novoCaminho));
-            // System.out.println("[selecionado] caminho: " + caminhos.get(individuo).caminho + "\tcusto: " + caminhos.get(individuo).getCusto());
-            // System.out.println("[mutacionado] caminho: " + caminhos.get(caminhos.size()-1).caminho + "\tcusto: " + caminhos.get(caminhos.size()-1).getCusto() + "\n\n");
+                caminhos.add(new Caminho(custo, vConverteInt(novoCaminho)));
         }
         novoCaminho = null;
     }
@@ -257,7 +238,6 @@ class Genetico{
 
         double pEquivalenciaPermitida = 0.0; //Parametro usado para permitir a equivalencia entre os N�o selecionados
         int nEquivalentesPermitidos = (int) Math.round((pEquivalenciaPermitida * pg.nNodos));
-        // System.out.println("numeroEquivalentesPermitidos: " + nEquivalentesPermitidos);
 
         Collections.sort(caminhos, new Comparator(){
             public int compare(Object o1, Object o2){
@@ -271,17 +251,21 @@ class Genetico{
 
         int repeticoesSemAlteracao = 0, iTotais = 0, nCaminhos;
         double melhorCusto = 0.0;
-
         while(repeticoesSemAlteracao < nRodSemAlt){
             for(int rodadas = 0; rodadas < nRodadas; rodadas++){
 
-                // if (repeticoesSemAlteracao > nRodSemAlt)
-    			// 	return caminhos.get(0);
+                if (repeticoesSemAlteracao > nRodSemAlt)
+    				return caminhos.get(0);
 
                 if (melhorCusto <= caminhos.get(0).getCusto()) //Significa que melhorou
                     repeticoesSemAlteracao++;
     			else
                     repeticoesSemAlteracao = 0;
+
+
+                if (iTotais % 250 == 0)
+                    System.out.println(caminhos.get(0).getCusto() + ", It(" + iTotais + ")");
+                iTotais++;
 
                 piorCusto = caminhos.get(caminhos.size() - 1).getCusto();
                 melhorCusto = caminhos.get(0).getCusto();
@@ -299,20 +283,16 @@ class Genetico{
 
                 ajustaPopulacao(caminhos);
             }
-
-            if (repeticoesSemAlteracao < nRodSemAlt){
-    			// System.out.print("\nMuda População\n");
+            if (repeticoesSemAlteracao < nRodSemAlt){ // Muda a população
+                System.out.println("Renova população !!!");
+                System.out.println("numeroIndividuosSobrevivem: " + nIndivSobrevive + ", caminhos.size(): " + caminhos.size());
+                while(nIndivSobrevive != caminhos.size())
+                    caminhos.remove(nIndivSobrevive);
+                System.out.println("caminhos.size(): " + caminhos.size());
     			inicializaPopulacao(caminhos, caminhos.size());
     			this.nRenovacoes++;
     		}
-
         }
-        // for(Caminho a : caminhos){
-        //     String[] abc = a.caminho.split(" ");
-        //     for(String g : abc)
-        //         System.out.print(g + ",");
-        //     System.out.println("  -> custo: " + a.getCusto());
-        // }
         System.out.println("[melhor final] caminho: " + caminhos.get(0).caminho + "\tcusto: " + caminhos.get(0).getCusto());
         return caminhos.get(0);
     }

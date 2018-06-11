@@ -152,7 +152,7 @@ Caminho algoritmoGenetico() {
 				tempo_gasto = ((double)(tf - t0)) / clock();
 				repeticoesSemAlteracao = 0;
 			}
-			if (iteracoesTotais % 10 == 0) {
+			if (iteracoesTotais % 250 == 0) {
 				//printf("\nMelhor caminho %s, = %f. It(%d). Tempo(%f)\n", caminhos[0].caminho, caminhos[0].custoCaminho, iteracoesTotais, tempo_gasto);
 				printf("\n%f,It(%d)\n", caminhos[0].custoCaminho, iteracoesTotais);
 			}
@@ -224,9 +224,11 @@ Caminho algoritmoGenetico() {
 		if (repeticoesSemAlteracao < maxItSemAlteracao) {
 			//Faz um truncate, pegando somente os nPop Melhores]
 			printf("\nMuda Popula��o\n");
+			std::cout << "numeroIndividuosSobrevivem: " << numeroIndividuosSobrevivem << ", caminhos.size(): " << caminhos.size() << '\n';
 			for (iteracoesTruncate = numeroIndividuosSobrevivem; iteracoesTruncate < nPop; iteracoesTruncate++){
 				caminhos.erase(caminhos.begin() + numeroIndividuosSobrevivem);
 			}
+			std::cout << "[depois truncate] caminhos.size(): " << caminhos.size() << '\n';
 			//for (iteracoesNaoSelecionados = 0; iteracoesNaoSelecionados < nPop - numeroIndividuosSobrevivem; iteracoesNaoSelecionados++)
 				//caminhos.push_back(caminhosNaoSelecionados[iteracoesNaoSelecionados]);
 			caminhos = inicializaPopulacao(caminhos, nPop - caminhos.size());

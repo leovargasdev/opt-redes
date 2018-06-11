@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <math.h>
 #include <time.h>
-#include <curses.h>
+// #include <curses.h>
 #include <limits.h>
 #include <fstream>
 #include <sstream>
@@ -39,10 +39,9 @@ double *matrizD;
 clock_t t0, tf;
 double tempo_gasto;
 
-char *caminhoVertices = "nsfnet_nodes.txt";
-char *caminhoArestas = "nsfnet_links.txt";
+char *caminhoVertices = "arnes_nodes.txt";
+char *caminhoArestas = "arnes_links.txt";
 char *caminhoSaida = "";
-
 
 char melhorCaminhoRSA[tamanhoString] = "0,1,2,3,4,5,6,7,9,8,10,11";
 char tipoRede[10] = "Original";
