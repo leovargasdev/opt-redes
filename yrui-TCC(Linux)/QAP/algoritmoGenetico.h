@@ -190,9 +190,6 @@ Caminho algoritmoGenetico() {
 			caminhos.insert(caminhos.end(), caminhosCrossover.begin(), caminhosCrossover.end());
 			caminhos.insert(caminhos.end(), caminhosMutacao.begin(), caminhosMutacao.end());
 
-
-
-
 			//Ordena a popula��o conforme o seu custo
 			sort(caminhos.begin(), caminhos.end(), comparaCusto);
 
