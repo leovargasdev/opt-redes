@@ -59,7 +59,7 @@ class PackGenetico{
     }
 
     public void geraMaiorDistPermitida(){
-        System.out.println("Maior grau: " + this.maiorGrau);
+        // System.out.println("Maior grau: " + this.maiorGrau);
         this.maiorDist = 0.0;
         double aux = 0;
         for (int i = 0; i < nNodos; i++) {

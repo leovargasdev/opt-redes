@@ -39,8 +39,8 @@ double *matrizD;
 clock_t t0, tf;
 double tempo_gasto;
 
-char *caminhoVertices = "coxUsa_nodes.txt";
-char *caminhoArestas = "coxUsa_links.txt";
+char *caminhoVertices = "nsfnet_nodes.txt";
+char *caminhoArestas = "nsfnet_links.txt";
 char *caminhoSaida = "";
 
 

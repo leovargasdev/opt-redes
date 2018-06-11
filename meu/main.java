@@ -24,7 +24,7 @@ class main{
         pg = new PackGenetico(nodos.size(), input[1]);
         pg.custos = c.calculo(nodos, pg.nNodos);
         pg.geraDistTotal();
-        System.out.println("Distacia total: " + pg.dTotal);
+        System.out.println("Distacia total: " + pg.dTotal + "\n\n");
 
         if (pg.nNodos <= 20)
     		ga = new Genetico(5000, 100, 80, 0.7, 0.7, 2, 0.2);
@@ -36,10 +36,10 @@ class main{
             ga = new Genetico(2000, 20000, 100, 0.9, 0.9, 4, 0.55);
 
         pg.nNosExeDistMax = (int) Math.round(ga.pLinksIndiv * pg.nLinks);
-        System.out.println("numeroNosExcedeDistanciaMaxima: " + pg.nNosExeDistMax);
+        // System.out.println("numeroNosExcedeDistanciaMaxima: " + pg.nNosExeDistMax);
 
         pg.geraMaiorDistPermitida();
-        System.out.println("Distancia Maxima: " + pg.maiorDist);
+        // System.out.println("Distancia Maxima: " + pg.maiorDist);
 
         Caminho ultraMelhorCaminho = ga.executaAG(pg);
     }
