@@ -71,6 +71,12 @@ class Genetico{
         int vGerado = 0, nPopu = this.populacao - caminhos.size();
         double custo = 0.0;
         int[] caminhoV = new int[pg.nNodos];
+        if(this.nRenovacoes == 2){
+            for (int g = 0; g < pg.nNodos; g++)
+                caminhoV[g] = g;
+            custo = calculaCusto(caminhoV, 0);
+            caminhos.add(new Caminho(custo, vConverteInt(caminhoV)));
+        }
         for (int i = 0; i < nPopu; i++){
             for (int j = 0; j < pg.nNodos; j++){
                 do{
@@ -103,11 +109,12 @@ class Genetico{
                     break;
             }
             if(a > populacao){ // Estorou o limite populacional
-                while(populacao != caminhos.size())
-                    caminhos.remove(populacao);
                 break;
             }
         }
+        int sobrevive = (int) Math.round(0.7 * this.populacao);
+        while(sobrevive != caminhos.size())
+            caminhos.remove(sobrevive);
     }
 
     public int selecionaIndividuo(int num, int tam){
@@ -215,22 +222,18 @@ class Genetico{
             }
         });
 
-        System.out.println("[melhor inicial] caminho: " + caminhos.get(0).caminho + "\tcusto: " + caminhos.get(0).getCusto());
-
-        int repeticoesSemAlteracao = 0, iTotais = 0;
-        double melhorCusto = 0.0;
+        System.out.println("\n[MELHOR INICIAL]\ncusto: " + caminhos.get(0).getCusto() + "\ncaminho: " + caminhos.get(0).caminho + "\n");
+        int repeticoesSemAlteracao = 0, iTotais = 0, contador = 0;
+        double melhorCusto = 0.0, auxCusto = 123456789.22;
         while(repeticoesSemAlteracao < nRodSemAlt){
             for(int rodadas = 0; rodadas < nRodadas; rodadas++){
-
-                if (repeticoesSemAlteracao > nRodSemAlt && pg.nNodos > 40)
-    				return caminhos.get(0);
 
                 if (melhorCusto <= caminhos.get(0).getCusto())
                     repeticoesSemAlteracao++;
     			else
                     repeticoesSemAlteracao = 0;
 
-                if (iTotais % 250 == 0) System.out.println(caminhos.get(0).getCusto() + ", It(" + iTotais + ")");
+                if (iTotais % 100 == 0) System.out.println(caminhos.get(0).getCusto() + "\t\tIt(" + iTotais + ")");
                 iTotais++;
                 if(caminhos.size() >= populacao)
                     piorCusto = caminhos.get(caminhos.size() - 1).getCusto();
@@ -250,17 +253,25 @@ class Genetico{
                 ajustaPopulacao(caminhos);
             }
 
-            if (repeticoesSemAlteracao < nRodSemAlt){ // Muda a população
-                System.out.println("Renova população !!!");
-
+            if (repeticoesSemAlteracao < nRodSemAlt){
+                if(auxCusto == caminhos.get(0).getCusto()){
+                    contador++;
+                } else {
+                    auxCusto = caminhos.get(0).getCusto();
+                    if(contador > 0)
+                        contador--;
+                }
                 while(nIndivSobrevive != caminhos.size())
                     caminhos.remove(nIndivSobrevive);
 
+                System.out.println("\nPopulação Renovada!!!\t\tEncerra em: " + (4 - contador) + "\n");
     			inicializaPopulacao(caminhos);
     			this.nRenovacoes++;
     		}
+
+            if(contador == 4) break;
         }
-        System.out.println("[melhor final] caminho: " + caminhos.get(0).caminho + "\tcusto: " + caminhos.get(0).getCusto());
+        System.out.println("\n[MELHOR FINAL]\ncusto: " + caminhos.get(0).getCusto() + "\ncaminho: " + caminhos.get(0).caminho + "\n");
         return caminhos.get(0);
     }
 }
