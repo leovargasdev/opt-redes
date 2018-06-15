@@ -1,0 +1,11 @@
+Id	Lat	Long
+Sofia	42.694	23.314
+Pleven	43.41	24.61
+Plovdiv	42.14	24.75
+StaraZagora	42.381	25.625
+Gabrovo	42.9	25.33
+Trnovo	43.09	25.64
+Choumen	43.26	26.92
+Ruse	43.83	25.99
+Varna	43.21	27.9
+Burgas	42.52	27.47

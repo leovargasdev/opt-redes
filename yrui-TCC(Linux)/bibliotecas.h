@@ -42,8 +42,26 @@ double tempo_gasto;
 // char *caminhoVertices = "coxUsa_nodes.txt";
 // char *caminhoArestas = "coxUsa_links.txt";
 
-char *caminhoVertices = "rnpBrazil_nodes.txt";
-char *caminhoArestas = "rnpBrazil_links.txt";
+// char *caminhoVertices = "nsfnet_nodes.txt";
+// char *caminhoArestas = "nsfnet_links.txt";
+
+// char *caminhoVertices = "OmnicomEurope_nodes.txt";
+// char *caminhoArestas = "OmnicomEurope_links.txt";
+
+// char *caminhoVertices = "metrona_UK_nodes.txt";
+// char *caminhoArestas = "metrona_UK_links.txt";
+
+// char *caminhoVertices = "bren_nodes.txt";
+// char *caminhoArestas = "bren_links.txt";
+
+// char *caminhoVertices = "arnes_nodes.txt";
+// char *caminhoArestas = "arnes_links.txt";
+
+// char *caminhoVertices = "rnpBrazil_nodes.txt";
+// char *caminhoArestas = "rnpBrazil_links.txt";
+
+// char *caminhoVertices = "cesnet_nodes.txt";
+// char *caminhoArestas = "cesnet_links.txt";
 
 char *caminhoSaida = "";
 

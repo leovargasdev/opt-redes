@@ -8,15 +8,14 @@ class Genetico{
     private double pm;                  // Porcentagem de sobreviventes apos mutação
     private int nMutacoes;              // Nº de mutações
     private int beta;                   // Selection Pressure Utilizado para Roleta
-    private int nIndivSobrevive;      // Nº de individuos sobreviventes apos o nRodadas
-    public double pLinksIndiv;          //Porcentagem de links de um individuo que pode exceder a distancia maxima permitida
+    private int nIndivSobrevive;        // Nº de individuos sobreviventes apos o nRodadas
     private int nRenovacoes;
     private Random hugo = new Random();
     private PackGenetico pg;
     private double piorCusto = 0.0;
     private int[] resultCS;
 
-    public Genetico(int a, int b, int c, double d, double e, int f, double j){
+    public Genetico(int a, int b, int c, double d, double e, int f){
         this.nRodadas = a;
         this.nRodSemAlt = b;
         this.populacao = c;
@@ -28,7 +27,7 @@ class Genetico{
         this.nIndivSobrevive = (int) (2 * Math.round(0.2 * this.populacao / 2));
         if(this.nIndivSobrevive == 0)
             this.nIndivSobrevive = 1;
-        this.pLinksIndiv = j;
+        // this.pLinksIndiv = j;
         this.nRenovacoes = 1;
     }
 
@@ -119,7 +118,7 @@ class Genetico{
 
     public int selecionaIndividuo(int num, int tam){
         int count = 0, result = 12345678;
-        if(num < nPais*0.2){ // 40% = são os primeiros da lista
+        if(num < nPais*0.5){ // 50% = são os primeiros da lista
             return num;
         } else if (num < nPais*0.7){  // 30% = um individuo aleatorio entre os 70% melhores da população
             tam *= 0.7;
@@ -181,15 +180,16 @@ class Genetico{
             individuo = hugo.nextInt(caminhos.size());
             tMutacao = hugo.nextInt(3);
             novoCaminho = vConverteString(caminhos.get(individuo).caminho.split(" "));
+
             if(tMutacao == 0) { // SOMATORIO
                 do{
-                    aux = hugo.nextInt(pg.nNodos-1); // soma não pode ser 0,1 e o ultimo numero disponivel
+                    aux = hugo.nextInt(pg.nNodos-2); // soma não pode ser 0,1 e o ultimo numero disponivel
                 }while(aux < 2);
                 for (int k = 0; k < pg.nNodos; k++)
                     novoCaminho[k] = (novoCaminho[k] + aux) % pg.nNodos;
             } else if(tMutacao == 1) { // TROCA
                 aux = hugo.nextInt(pg.nNodos);
-                int aux2 = hugo.nextInt(pg.nNodos-1);
+                int aux2 = hugo.nextInt(pg.nNodos-2);
                 int aux3 = novoCaminho[aux];
                 novoCaminho[aux] = novoCaminho[aux2];
                 novoCaminho[aux2] = aux3;
@@ -201,6 +201,7 @@ class Genetico{
                     novoCaminho[y] = aux2[aux3];
                 aux2 = null;
             }
+
             custo = calculaCusto(novoCaminho, 1);
             if(custo < piorCusto)
                 caminhos.add(new Caminho(custo, vConverteInt(novoCaminho)));
@@ -225,6 +226,7 @@ class Genetico{
         System.out.println("\n[MELHOR INICIAL]\ncusto: " + caminhos.get(0).getCusto() + "\ncaminho: " + caminhos.get(0).caminho + "\n");
         int repeticoesSemAlteracao = 0, iTotais = 0, contador = 0;
         double melhorCusto = 0.0, auxCusto = 123456789.22;
+
         while(repeticoesSemAlteracao < nRodSemAlt){
             for(int rodadas = 0; rodadas < nRodadas; rodadas++){
 
@@ -233,8 +235,11 @@ class Genetico{
     			else
                     repeticoesSemAlteracao = 0;
 
-                if (iTotais % 100 == 0) System.out.println(caminhos.get(0).getCusto() + "\t\tIt(" + iTotais + ")");
+                if(iTotais % 100 == 0 && pg.nNodos > 30) System.out.println(caminhos.get(0).getCusto() + "\t\tIt(" + iTotais + ")");
+                else if(iTotais % 600 == 0) System.out.println(caminhos.get(0).getCusto() + "\t\tIt(" + iTotais + ")");
+
                 iTotais++;
+
                 if(caminhos.size() >= populacao)
                     piorCusto = caminhos.get(caminhos.size() - 1).getCusto();
                 melhorCusto = caminhos.get(0).getCusto();
@@ -254,7 +259,7 @@ class Genetico{
             }
 
             if (repeticoesSemAlteracao < nRodSemAlt){
-                if(auxCusto == caminhos.get(0).getCusto()){
+                if(auxCusto == caminhos.get(0).getCusto() && pg.nNodos > 30){
                     contador++;
                 } else {
                     auxCusto = caminhos.get(0).getCusto();
@@ -271,6 +276,7 @@ class Genetico{
 
             if(contador == 4) break;
         }
+
         System.out.println("\n[MELHOR FINAL]\ncusto: " + caminhos.get(0).getCusto() + "\ncaminho: " + caminhos.get(0).caminho + "\n");
         return caminhos.get(0);
     }
